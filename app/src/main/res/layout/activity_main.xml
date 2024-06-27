@@ -56,12 +56,13 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/main_add_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:fabCustomSize="40dp"
                 android:src="@drawable/plus_icon"
                 app:maxImageSize="15dp"
-                col
+                android:contentDescription="Button to add a new listing"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="25dp"
