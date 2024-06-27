@@ -1,7 +1,8 @@
-package com.springsamurais.toyswap
+package com.springsamurais.toyswap.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.springsamurais.toyswap.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
