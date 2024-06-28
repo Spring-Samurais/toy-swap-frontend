@@ -41,7 +41,7 @@
                 android:textColor="@color/blue" />
 
         <EditText
-                android:id="@+id/username_field"
+                android:id="@+id/username_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="username"
@@ -54,12 +54,12 @@
                 android:layout_marginEnd="50dp" />
 
         <EditText
-                android:id="@+id/password_field"
+                android:id="@+id/password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="password"
                 android:fontFamily="@font/inter"
-                app:layout_constraintTop_toBottomOf="@id/username_field"
+                app:layout_constraintTop_toBottomOf="@id/username_input"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="50dp"
@@ -71,7 +71,7 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="Login"
-                app:layout_constraintTop_toBottomOf="@id/password_field"
+                app:layout_constraintTop_toBottomOf="@id/password_input"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="35dp"
