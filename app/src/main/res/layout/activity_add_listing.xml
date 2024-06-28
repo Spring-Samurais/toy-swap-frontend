@@ -12,18 +12,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/header_container"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingTop="20dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:layout_margin="15dp"
-            android:background="@color/white"
-            android:elevation="5dp">
-            tools:context=".ui.addlisting.AddListingActivity
+            android:layout_height="match_parent"
+            tools:context=".ui.addlisting.AddListingActivity"
+            android:backgroundTint="@color/ltblue" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/header_container"
@@ -54,69 +45,24 @@
                     android:id="@+id/user_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/item_description_input"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="19dp"
-                    android:layout_marginStart="10dp"
-                    android:text="Condition"
-                    android:textSize="19dp"
-                    android:fontFamily="@font/patua_one" />
-
-
-            <Spinner
-                    android:id="@+id/condition_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/item_description_input"
-                    app:layout_constraintStart_toEndOf="@id/condition_spinner_label"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="15dp"
-                    android:padding="5dp"/>
-
-            <TextView
-                    android:id="@+id/category_spinner_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/condition_spinner_label"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="17dp"
-                    android:layout_marginStart="10dp"
-                    android:text="Category"
-                    android:textSize="19dp"
-                    android:fontFamily="@font/patua_one" />
-
-
-            <Spinner
-                    android:id="@+id/category_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/condition_spinner"
-                    app:layout_constraintStart_toEndOf="@id/category_spinner_label"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="10dp"
-                    android:padding="5dp"/>
-
-            <Button
-                    android:id="@+id/add_listing_button"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-
                     android:backgroundTint="@color/blue"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginEnd="30dp"
                     android:fontFamily="@font/inter"
+                    android:textSize="16sp"
                     android:text="Hello, skettle1!"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="615dp"
+                android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@id/header_container"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:paddingTop="20dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
