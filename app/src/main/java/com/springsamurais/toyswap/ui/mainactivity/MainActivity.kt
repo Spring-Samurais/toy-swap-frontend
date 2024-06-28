@@ -1,4 +1,4 @@
-package com.springsamurais.toyswap.ui
+package com.springsamurais.toyswap.ui.mainactivity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
