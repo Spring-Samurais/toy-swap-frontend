@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_ltpink">
+
+    <TextView
+            android:id="@+id/comment_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="skettle1"
+            android:fontFamily="@font/patua_one"
+            android:textSize="16dp" />
+
+    <TextView
+            android:id="@+id/comment_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="28/06/24 | 11.12am"
+            android:fontFamily="@font/inter" />
+
+    <TextView
+            android:id="@+id/comment_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comment_username"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:text="I love this teddy so much. I can swap for either a bulbasaur plushie, or maybe some Disney lego? Both in amazing condition as well!"
+            android:fontFamily="@font/inter"
+            android:textSize="14dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
