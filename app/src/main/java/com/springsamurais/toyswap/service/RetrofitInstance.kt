@@ -8,7 +8,7 @@ class RetrofitInstance {
 
     private var retrofit: Retrofit? = null
 
-    private val baseUrl: String = ""
+    private val baseUrl: String = "http://10.0.2.2:8080/api/v1/"
 
     fun getService(): ListingAPIService {
         if (retrofit == null) {
