@@ -1,12 +1,14 @@
 package com.springsamurais.toyswap.service
 
 import com.springsamurais.toyswap.model.Listing
+import com.springsamurais.toyswap.ui.login.data.LoginRequest
+import com.springsamurais.toyswap.ui.login.data.LoginResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
-interface ListingAPIService {
+interface APIService {
 
     @GET("listings")
     fun getListings(): Call<MutableList<Listing?>?>?
@@ -21,6 +23,9 @@ interface ListingAPIService {
         @Part("condition") condition: RequestBody,
         @Part("statusListing") statusListing: RequestBody
     ): Call<Listing>
+
+    @POST("login")
+    fun login(@Body loginRequest: LoginRequest): Call<LoginResponse>
 
     @PUT("listings/{id}")
     fun updateListing() // To be implemented
