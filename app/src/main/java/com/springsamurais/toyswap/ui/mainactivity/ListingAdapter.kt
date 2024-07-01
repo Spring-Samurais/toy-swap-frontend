@@ -1,17 +1,26 @@
 package com.springsamurais.toyswap.ui.mainactivity
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.springsamurais.toyswap.R
 import com.springsamurais.toyswap.model.Listing
+import java.io.ByteArrayInputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ListingAdapter(private val listings: List<Listing>) : RecyclerView.Adapter<ListingAdapter.ViewHolder>() {
+class ListingAdapter(private val listings: List<Listing>,
+                     private val context: Context)
+    : RecyclerView.Adapter<ListingAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val listingImage: ImageView
@@ -38,6 +47,7 @@ class ListingAdapter(private val listings: List<Listing>) : RecyclerView.Adapter
         return ViewHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val currentListing: Listing = listings[position]
 
@@ -51,7 +61,11 @@ class ListingAdapter(private val listings: List<Listing>) : RecyclerView.Adapter
         viewHolder.description.text  = currentListing.description
         viewHolder.dateText.text     = formattedDate
 
-        viewHolder.listingImage.setImageResource(R.drawable.pikachu_toy)
+        // Convert image and display with Glide
+        val byteArray = Base64.getDecoder().decode(currentListing.photo!!)
+        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+        viewHolder.listingImage.setImageBitmap(bitmap)
+
     }
 
     override fun getItemCount() = listings.size

@@ -1,7 +1,5 @@
 package com.springsamurais.toyswap.model
 
-import java.util.Date
-
 class Listing {
 
     var id: Long? = null

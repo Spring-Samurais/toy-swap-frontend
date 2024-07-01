@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayInRecyclerView() {
-        val adapter = ListingAdapter(listings!!)
+        val adapter = ListingAdapter(listings!!, this)
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
