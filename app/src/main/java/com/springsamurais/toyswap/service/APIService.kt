@@ -11,10 +11,10 @@ import retrofit2.http.*
 interface APIService {
 
     @GET("listings")
-    fun getListings(): Call<MutableList<Listing?>?>?
+    fun getListings(): Call<List<Listing>>
 
     @Multipart
-    @POST("listings")
+    @POST("/api/listings")
     fun postListing(
         @Part("title") title: RequestBody,
         @Part photo: MultipartBody.Part?,

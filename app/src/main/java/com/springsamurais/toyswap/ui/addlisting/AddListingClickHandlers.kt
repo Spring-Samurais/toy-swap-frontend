@@ -3,20 +3,24 @@ package com.springsamurais.toyswap.ui.addlisting
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import android.widget.Toast
 import com.springsamurais.toyswap.ui.mainactivity.MainActivity
+
 
 class AddListingClickHandlers(private var context: Context) {
 
     fun captureImageButtonClicked(view: View) {
-        // Moazam has code for opening camera
+        Toast.makeText(context, "Capture Clicked", Toast.LENGTH_SHORT).show()
     }
 
+
+
     fun accessGalleryButtonClicked(view: View) {
-        // Moazam has code for accessing gallery
+        Toast.makeText(context, "Gallery Clicked", Toast.LENGTH_SHORT).show()
     }
 
     fun addListingButtonClicked(view: View) {
-        // To be implented after POST request designed
+        Toast.makeText(context, "Add Listing Clicked", Toast.LENGTH_SHORT).show()
     }
 
     fun cancelButtonClicked(view: View) {
