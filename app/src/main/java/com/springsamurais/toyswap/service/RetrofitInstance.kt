@@ -6,7 +6,7 @@ import retrofit2.create
 
 object RetrofitInstance {
 
-    private val baseUrl: String = "http://10.0.2.2:8080/api/v1/"
+    private val  baseUrl: String = "http://10.0.2.2:8080/api/v1/"
 
     val instance: APIService by lazy {
         val retrofit = Retrofit.Builder()

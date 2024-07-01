@@ -1,11 +1,11 @@
 package com.springsamurais.toyswap.model
 
 class Member {
-    private var id: Long? = null
-    private var name: String? = null
-    private var nickname: String? = null
-    private var location: String? = null
-    private var listings: List<Listing>? = null
+    var id: Long? = null
+    var name: String? = null
+    var nickname: String? = null
+    var location: String? = null
+    var listings: List<Listing>? = null
 
     constructor()
 
@@ -16,6 +16,4 @@ class Member {
         this.location = location
         this.listings = listings
     }
-
-
 }
