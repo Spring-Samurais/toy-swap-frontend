@@ -11,7 +11,7 @@ import retrofit2.http.*
 interface APIService {
 
     @GET("listings")
-    fun getListings(): Call<MutableList<Listing?>?>?
+    fun getListings(): Call<List<Listing>>
 
     @Multipart
     @POST("/api/listings")
