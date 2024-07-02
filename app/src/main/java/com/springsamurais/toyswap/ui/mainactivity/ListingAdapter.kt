@@ -14,15 +14,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.springsamurais.toyswap.R
 import com.springsamurais.toyswap.model.Listing
-import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ListingAdapter(private val listings: List<Listing>,
-                     private val context: Context)
+                     private val context: Context,
+                     private val recyclerViewInterface: RecyclerViewInterface)
     : RecyclerView.Adapter<ListingAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, recyclerViewInterface: RecyclerViewInterface) : RecyclerView.ViewHolder(view) {
+
         val listingImage: ImageView
         val listingName: TextView
         val locationText: TextView
@@ -37,13 +38,22 @@ class ListingAdapter(private val listings: List<Listing>,
             usernameText = view.findViewById(R.id.username_text)
             description  = view.findViewById(R.id.description_text)
             dateText     = view.findViewById(R.id.date_posted)
+
+            view.setOnClickListener(View.OnClickListener { v: View? ->
+                if (recyclerViewInterface != null) {
+                    val position: Int = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        recyclerViewInterface.onItemClick(position)
+                    }
+                }
+            })
         }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.listing_item, viewGroup, false)
-        return ViewHolder(view)
+        return ViewHolder(view, recyclerViewInterface)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

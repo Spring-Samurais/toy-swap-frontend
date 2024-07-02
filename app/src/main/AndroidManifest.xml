@@ -34,6 +34,9 @@
                 android:name=".ui.addlisting.AddListingActivity"
                 android:exported="false"/>
         <activity
+                android:name=".ui.listing.ViewListingActivity"
+                android:exported="false" />
+        <activity
                 android:name=".ui.mainactivity.MainActivity"
                 android:exported="true">
             <intent-filter>
