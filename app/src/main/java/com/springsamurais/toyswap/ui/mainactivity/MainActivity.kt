@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewInterface {
 
     override fun onItemClick(position: Int) {
         val intent = Intent(this@MainActivity, ViewListingActivity::class.java)
+        intent.putExtra("LISTING_ITEM", listings!![position])
         startActivity(intent)
     }
 }

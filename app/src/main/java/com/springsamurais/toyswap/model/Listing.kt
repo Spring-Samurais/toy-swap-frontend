@@ -11,9 +11,9 @@ class Listing(
     var datePosted: String? = null,
     var category: String? = null,
     var description: String? = null,
-    var itemCondition: String? = null,
+    var condition: String? = null,
     var statusListing: String? = null,
-    var comments: List<Comment>? = null
+//    var comments: List<Comment>? = null
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this() {
@@ -23,7 +23,7 @@ class Listing(
         datePosted = parcel.readString()
         category = parcel.readString()
         description = parcel.readString()
-        itemCondition = parcel.readString()
+        condition = parcel.readString()
         statusListing = parcel.readString()
     }
 
@@ -34,7 +34,7 @@ class Listing(
         parcel.writeString(datePosted)
         parcel.writeString(category)
         parcel.writeString(description)
-        parcel.writeString(itemCondition)
+        parcel.writeString(condition)
         parcel.writeString(statusListing)
     }
 

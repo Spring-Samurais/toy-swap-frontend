@@ -130,7 +130,7 @@
                         android:id="@+id/listing_full_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{listing.member.nickname}"
+                        android:text="@{member.nickname}"
                         app:layout_constraintTop_toBottomOf="@id/listing_full_description"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginEnd="15dp"
@@ -180,7 +180,7 @@
                         app:layout_constraintTop_toBottomOf="@id/listing_map_image"
                         app:layout_constraintStart_toStartOf="@id/listing_full_date"
                         android:layout_marginTop="20dp"
-                        android:text="@{listing.itemCondition}"
+                        android:text="@{listing.condition}"
                         android:fontFamily="@font/inter"
                         android:textSize="14dp" />
 
