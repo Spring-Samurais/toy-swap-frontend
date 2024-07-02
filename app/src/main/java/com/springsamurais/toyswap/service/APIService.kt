@@ -14,7 +14,7 @@ interface APIService {
     fun getListings(): Call<MutableList<Listing?>?>?
 
     @Multipart
-    @POST("listings")
+    @POST("/api/listings")
     fun postListing(
         @Part("title") title: RequestBody,
         @Part photo: MultipartBody.Part?,
