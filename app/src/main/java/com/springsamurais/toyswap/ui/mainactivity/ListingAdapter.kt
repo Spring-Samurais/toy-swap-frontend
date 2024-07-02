@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.springsamurais.toyswap.R
 import com.springsamurais.toyswap.model.Listing
-import java.io.ByteArrayInputStream
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,7 +29,6 @@ class ListingAdapter(private val listings: List<Listing>,
         val usernameText: TextView
         val description: TextView
         val dateText: TextView
-
 
         init {
             listingImage = view.findViewById(R.id.listing_image)
@@ -49,6 +48,7 @@ class ListingAdapter(private val listings: List<Listing>,
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+        var bitmap: Bitmap? = null;
         val currentListing: Listing = listings[position]
 
         // Format the date in a user-friendly way
@@ -62,10 +62,16 @@ class ListingAdapter(private val listings: List<Listing>,
         viewHolder.dateText.text     = formattedDate
 
         // Convert image and display with Glide
-        val byteArray = Base64.getDecoder().decode(currentListing.photo!!)
-        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-        viewHolder.listingImage.setImageBitmap(bitmap)
+        if (currentListing.photo != null) {
+            val byteArray = Base64.getDecoder().decode(currentListing.photo!!)
+            bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+        }
 
+        Glide.with(context)
+            .load(bitmap)
+            .placeholder(R.drawable.img_placeholder)
+            .error(R.drawable.img_placeholder)
+            .into(viewHolder.listingImage)
     }
 
     override fun getItemCount() = listings.size
