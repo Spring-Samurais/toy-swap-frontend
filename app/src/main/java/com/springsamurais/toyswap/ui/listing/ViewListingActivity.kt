@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -38,6 +39,12 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
         binding?.listing = listing
 
         setFormattedContent(listing!!)
+
+        Glide.with(this)
+            .load(listing!!.images!![0].url)
+            .placeholder(R.drawable.img_placeholder)
+            .error(R.drawable.img_placeholder)
+            .into(findViewById(R.id.listing_full_image))
 
         val mapFragment = SupportMapFragment.newInstance()
         supportFragmentManager
