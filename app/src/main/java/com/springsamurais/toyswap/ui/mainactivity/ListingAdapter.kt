@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,7 +59,6 @@ class ListingAdapter(private val listings: List<Listing>,
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        var bitmap: Bitmap? = null;
         val currentListing: Listing = listings[position]
 
         // Format the date in a user-friendly way
@@ -71,14 +71,9 @@ class ListingAdapter(private val listings: List<Listing>,
         viewHolder.description.text  = currentListing.description
         viewHolder.dateText.text     = formattedDate
 
-        // Convert image and display with Glide
-        if (currentListing.photo != null) {
-            val byteArray = Base64.getDecoder().decode(currentListing.photo!!)
-            bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-        }
-
+        // Display image with Glide
         Glide.with(context)
-            .load(bitmap)
+            .load(currentListing.images!![0].url)
             .placeholder(R.drawable.img_placeholder)
             .error(R.drawable.img_placeholder)
             .into(viewHolder.listingImage)

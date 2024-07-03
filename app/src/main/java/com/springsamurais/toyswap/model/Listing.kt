@@ -6,38 +6,37 @@ import android.os.Parcelable
 class Listing(
     var id: Long? = null,
     var title: String? = null,
-    var photo: String? = null,
-    var member: Member? = null,
     var datePosted: String? = null,
     var category: String? = null,
     var description: String? = null,
     var condition: String? = null,
     var statusListing: String? = null,
-//    var comments: List<Comment>? = null
+    var member: Member? = null,
+    var images: Array<Image>? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Long::class.java.classLoader) as? Long,
         parcel.readString(),
         parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.readParcelable(Member::class.java.classLoader),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString()
+        parcel.createTypedArray(Image)
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(id)
         parcel.writeString(title)
-        parcel.writeString(photo)
-        parcel.writeParcelable(member, flags)
         parcel.writeString(datePosted)
         parcel.writeString(category)
         parcel.writeString(description)
         parcel.writeString(condition)
         parcel.writeString(statusListing)
+        parcel.writeParcelable(member, flags)
+        parcel.writeTypedArray(images, flags)
     }
 
     override fun describeContents(): Int {
@@ -54,3 +53,4 @@ class Listing(
         }
     }
 }
+
