@@ -2,12 +2,16 @@
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:map="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable 
                 name="listing" 
                 type="com.springsamurais.toyswap.model.Listing"/>
+        <variable
+                name="member"
+                type="com.springsamurais.toyswap.model.Member"/>
         <variable
                 name="clickHandler"
                 type="com.springsamurais.toyswap.ui.listing.ViewListingClickHandlers"/>
@@ -130,7 +134,7 @@
                         android:id="@+id/listing_full_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{member.nickname}"
+                        android:text="@{listing.member.nickname}"
                         app:layout_constraintTop_toBottomOf="@id/listing_full_description"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginEnd="15dp"
@@ -150,22 +154,22 @@
                         android:fontFamily="@font/patua_one"
                         android:textSize="16dp" />
 
-                <ImageView
-                        android:id="@+id/listing_map_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="160dp"
-                        android:src="@drawable/map_placeholder"
-                        app:layout_constraintTop_toBottomOf="@id/listing_full_location_text"
-                        android:scaleType="centerCrop"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="10dp" />
+                <androidx.fragment.app.FragmentContainerView
+                          android:id="@+id/map_container"
+                          app:layout_constraintTop_toBottomOf="@id/listing_full_location_text"
+                          app:layout_constraintStart_toStartOf="parent"
+                          app:layout_constraintEnd_toEndOf="parent"
+                          android:layout_marginEnd="15dp"
+                          android:layout_marginStart="15dp"
+                          android:layout_marginTop="10dp"
+                          android:layout_width="match_parent"
+                          android:layout_height="200dp"/>
 
                 <TextView
                         android:id="@+id/listing_full_condition_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/listing_map_image"
+                        app:layout_constraintTop_toBottomOf="@id/map_container"
                         app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="20dp"
@@ -177,7 +181,7 @@
                         android:id="@+id/listing_full_condition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/listing_map_image"
+                        app:layout_constraintTop_toBottomOf="@id/map_container"
                         app:layout_constraintStart_toStartOf="@id/listing_full_date"
                         android:layout_marginTop="20dp"
                         android:text="@{listing.condition}"

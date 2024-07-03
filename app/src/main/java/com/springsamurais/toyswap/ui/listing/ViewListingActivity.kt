@@ -2,14 +2,21 @@ package com.springsamurais.toyswap.ui.listing
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.springsamurais.toyswap.R
 import com.springsamurais.toyswap.databinding.ActivityViewListingBinding
 import com.springsamurais.toyswap.model.Listing
 
-class ViewListingActivity : AppCompatActivity() {
+class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var binding: ActivityViewListingBinding? = null
     private var handler: ViewListingClickHandlers? = null;
@@ -27,5 +34,19 @@ class ViewListingActivity : AppCompatActivity() {
         binding?.clickHandler = handler
         binding?.listing = listing
 
+        val mapFragment = SupportMapFragment.newInstance()
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.map_container, mapFragment)
+            .commit()
+        mapFragment.getMapAsync(this)
+    }
+
+    override fun onMapReady(map: GoogleMap) {
+        map.addMarker(
+            MarkerOptions()
+                .position(LatLng(0.0, 0.0))
+                .title("Marker")
+        )
     }
 }

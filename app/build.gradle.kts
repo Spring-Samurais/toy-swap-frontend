@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -33,10 +34,13 @@ android {
 
     buildFeatures {
         dataBinding = true;
+        buildConfig = true;
     }
 }
 
 dependencies {
+    val camerax_version = "1.2.2"
+    val fragment_version = "1.8.1"
 
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
@@ -44,10 +48,11 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
+    implementation("androidx.fragment:fragment-ktx:$fragment_version")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    val camerax_version = "1.2.2"
     implementation ("androidx.camera:camera-core:${camerax_version}")
     implementation ("androidx.camera:camera-camera2:${camerax_version}")
     implementation ("androidx.camera:camera-lifecycle:${camerax_version}")
@@ -56,5 +61,9 @@ dependencies {
     implementation ("androidx.camera:camera-extensions:${camerax_version}")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+}
 
+secrets {
+    propertiesFileName = "secrets.properties"
+    defaultPropertiesFileName = "local.defaults.properties"
 }
