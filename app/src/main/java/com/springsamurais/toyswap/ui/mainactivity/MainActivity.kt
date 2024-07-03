@@ -1,5 +1,6 @@
 package com.springsamurais.toyswap.ui.mainactivity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -10,8 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.springsamurais.toyswap.R
 import com.springsamurais.toyswap.databinding.ActivityMainBinding
 import com.springsamurais.toyswap.model.Listing
+import com.springsamurais.toyswap.ui.listing.ViewListingActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), RecyclerViewInterface {
 
     private var listings: List<Listing>? = null
     private lateinit var binding: ActivityMainBinding
@@ -34,11 +36,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getAllListings() {
-//        model.getData().observe(this) { listingsFromData ->
-//            listings = listingsFromData as ArrayList<Listing>
-//            Log.d("MAIN ACTIVITY", "First title: " + listingsFromData[0].title)
-//            displayInRecyclerView()
-//        }
+
         val listingsObserver = Observer<List<Listing>> {listingData ->
             listings = listingData
             displayInRecyclerView()
@@ -47,11 +45,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayInRecyclerView() {
-        val adapter = ListingAdapter(listings!!, this)
+        val adapter = ListingAdapter(listings!!, this, this)
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
         recyclerView.hasFixedSize()
         adapter.notifyDataSetChanged()
+    }
+
+    override fun onItemClick(position: Int) {
+        val intent = Intent(this@MainActivity, ViewListingActivity::class.java)
+        intent.putExtra("LISTING_ITEM", listings!![position])
+        startActivity(intent)
     }
 }
