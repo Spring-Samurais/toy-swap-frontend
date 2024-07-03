@@ -1,5 +1,7 @@
 package com.springsamurais.toyswap.ui.listing
 
+import android.location.Address
+import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -25,6 +27,7 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
     private var binding: ActivityViewListingBinding? = null
     private var handler: ViewListingClickHandlers? = null;
     private var listing: Listing? = null;
+    private lateinit var geocoder: Geocoder
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +58,8 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(map: GoogleMap) {
-        val itemLocation = LatLng(52.63, -1.69)
+        val coordinates = getCoordinates(listing!!.member!!.location!!)
+        val itemLocation = LatLng(coordinates[0], coordinates[1])
         map.addMarker(
             MarkerOptions()
                 .position(itemLocation)
@@ -77,5 +81,11 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
         // Set the text in the views
         conditionText.text = formattedCondition
         dateText.text = formattedDate
+    }
+
+    private fun getCoordinates(location: String) : Array<Double> {
+        geocoder = Geocoder(this, Locale.ENGLISH)
+        val address = geocoder.getFromLocationName(location, 1)?.get(0)
+        return arrayOf(address!!.latitude, address.longitude)
     }
 }
