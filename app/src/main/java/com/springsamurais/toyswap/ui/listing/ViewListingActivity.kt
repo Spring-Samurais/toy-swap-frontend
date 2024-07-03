@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -16,6 +17,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.springsamurais.toyswap.R
 import com.springsamurais.toyswap.databinding.ActivityViewListingBinding
 import com.springsamurais.toyswap.model.Listing
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -35,6 +38,14 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
         binding?.clickHandler = handler
         binding?.listing = listing
 
+        setFormattedContent(listing!!)
+
+        Glide.with(this)
+            .load(listing!!.images!![0].url)
+            .placeholder(R.drawable.img_placeholder)
+            .error(R.drawable.img_placeholder)
+            .into(findViewById(R.id.listing_full_image))
+
         val mapFragment = SupportMapFragment.newInstance()
         supportFragmentManager
             .beginTransaction()
@@ -50,5 +61,21 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
                 .position(itemLocation)
                 .title("Marker"))
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(itemLocation, 10.0f))
+    }
+
+    private fun setFormattedContent(listing: Listing) {
+        // Select views from layout
+        val dateText: TextView = findViewById(R.id.listing_full_date)
+        val conditionText: TextView = findViewById(R.id.listing_full_condition)
+
+        // Format fields as required
+        val formattedCondition = listing.condition!!.replace("_", " ")
+
+        val date: Date? = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH).parse(listing.datePosted!!)
+        val formattedDate: String = SimpleDateFormat("dd-MM-yy", Locale.ENGLISH).format(date!!)
+
+        // Set the text in the views
+        conditionText.text = formattedCondition
+        dateText.text = formattedDate
     }
 }
