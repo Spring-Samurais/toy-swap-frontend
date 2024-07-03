@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -43,10 +44,11 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(map: GoogleMap) {
+        val itemLocation = LatLng(52.63, -1.69)
         map.addMarker(
             MarkerOptions()
-                .position(LatLng(0.0, 0.0))
-                .title("Marker")
-        )
+                .position(itemLocation)
+                .title("Marker"))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(itemLocation, 10.0f))
     }
 }
