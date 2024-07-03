@@ -15,22 +15,24 @@ class Listing(
     var statusListing: String? = null,
 //    var comments: List<Comment>? = null
 ) : Parcelable {
-
-    constructor(parcel: Parcel) : this() {
-        id = parcel.readValue(Long::class.java.classLoader) as? Long
-        title = parcel.readString()
-        photo = parcel.readString()
-        datePosted = parcel.readString()
-        category = parcel.readString()
-        description = parcel.readString()
-        condition = parcel.readString()
-        statusListing = parcel.readString()
+    constructor(parcel: Parcel) : this(
+        parcel.readValue(Long::class.java.classLoader) as? Long,
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readParcelable(Member::class.java.classLoader),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString()
+    ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(id)
         parcel.writeString(title)
         parcel.writeString(photo)
+        parcel.writeParcelable(member, flags)
         parcel.writeString(datePosted)
         parcel.writeString(category)
         parcel.writeString(description)
@@ -51,6 +53,4 @@ class Listing(
             return arrayOfNulls(size)
         }
     }
-
-
 }

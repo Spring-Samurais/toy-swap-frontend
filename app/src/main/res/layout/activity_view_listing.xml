@@ -184,7 +184,7 @@
                         app:layout_constraintTop_toBottomOf="@id/map_container"
                         app:layout_constraintStart_toStartOf="@id/listing_full_date"
                         android:layout_marginTop="20dp"
-                        android:text="@{listing.condition}"
+                        android:text=""
                         android:fontFamily="@font/inter"
                         android:textSize="14dp" />
 
@@ -208,7 +208,7 @@
                         app:layout_constraintStart_toEndOf="@id/listing_full_date_label"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="10dp"
-                        android:text="@{listing.datePosted}"
+                        android:text=""
                         android:fontFamily="@font/inter"
                         android:textSize="14dp" />
                 
