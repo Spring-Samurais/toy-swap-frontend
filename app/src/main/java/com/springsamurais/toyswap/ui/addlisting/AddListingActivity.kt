@@ -154,7 +154,7 @@ class AddListingActivity : AppCompatActivity() {
             // create request body for image file
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
 
-            val photo = MultipartBody.Part.createFormData("photo", file.name, requestFile)
+            val image = MultipartBody.Part.createFormData("photo", file.name, requestFile)
 
             // prepare text parts for request body
             val title = RequestBody.create(
@@ -182,7 +182,7 @@ class AddListingActivity : AppCompatActivity() {
             // call API to upload listing
             val call = apiService?.postListing(
                 title,
-                photo,
+                image,
                 category,
                 description,
                 condition,
