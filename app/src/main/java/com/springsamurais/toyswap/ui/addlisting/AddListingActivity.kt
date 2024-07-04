@@ -122,7 +122,8 @@ class AddListingActivity : AppCompatActivity() {
         })
 
         addListingButton?.setOnClickListener(View.OnClickListener {
-            uploadListingToServer()
+            val bms: List<Bitmap> = listOf(selectedBitmap!!)
+            uploadListingToServer(bms)
         })
 
     } // end of onCreate
@@ -227,16 +228,84 @@ class AddListingActivity : AppCompatActivity() {
 //        }
 //    } // end of uploadListingToServer
 
-    private fun uploadListingToServer(images: List<Bitmap>){
-        if(images.isEmpty()){
+//    private fun uploadListingToServer(photos: List<Bitmap>){
+//        if(photos.isEmpty()){
+//            Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//
+//        val images = mutableListOf<MultipartBody.Part>()
+//        //val images: ArrayList<MultipartBody.Part> = ArrayList()
+//        ;
+//        val cacheDir = cacheDir
+//
+//        for((index, bitmap) in photos.withIndex()){
+//            val file = File(cacheDir, "photo$index.jpeg")
+//            try {
+//                val fos = FileOutputStream(file)
+//                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+//                fos.flush()
+//                fos.close()
+//            } catch (e: IOException) {
+//                Toast.makeText(this, "Error compressing bitmap", Toast.LENGTH_SHORT).show()
+//                return
+//            }
+//
+//            // create request body for image file
+//            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+//            val image = MultipartBody.Part.createFormData("photo", file.name, requestFile)
+//            images.add(image)
+//        }
+//
+//        val title = RequestBody.create(MediaType.parse("text/plain"), itemTitleInput?.text.toString())
+//        val description = RequestBody.create(MediaType.parse("text/plain"), itemDescriptionInput?.text.toString())
+//        val condition = RequestBody.create(MediaType.parse("text/plain"), conditionSpinner?.selectedItem.toString())
+//        val category = RequestBody.create(MediaType.parse("text/plain"), categorySpinner?.selectedItem.toString())
+//        val statusListing = RequestBody.create(MediaType.parse("text/plain"), "AVAILABLE")
+//        val userID = RequestBody.create(MediaType.parse("text/plain"), "1")
+//
+//
+//        val call = apiService?.postListing(
+//            title,
+//            userID,
+//            category,
+//            description,
+//            condition,
+//            statusListing,
+//            images,
+//        )?.enqueue(object : Callback<Listing> {
+//            override fun onResponse(call: Call<Listing>, response: retrofit2.Response<Listing>) {
+//                if (response.isSuccessful) {
+//                    Toast.makeText(this@AddListingActivity, "Listing Uploaded", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    val errorBody = response.errorBody()?.string()
+//                    Toast.makeText(this@AddListingActivity, "Error Uploading Listing: $errorBody", Toast.LENGTH_LONG).show()
+//                    Log.e("UploadError:", "Error response $errorBody")
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<Listing>, t: Throwable) {
+//                val errorMessage = t.message
+//                Toast.makeText(this@AddListingActivity, "Something went wrong $errorMessage", Toast.LENGTH_LONG).show()
+//                Log.e("UploadFailure:", "Error: ${t.message}", t)
+//            }
+//        })
+//
+//
+//    } // end of uploadListingToServer
+
+
+    private fun uploadListingToServer(images: List<Bitmap>) {
+        if (images.isEmpty()) {
             Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show()
             return
         }
 
         val imageParts = mutableListOf<MultipartBody.Part>()
+        //val imageMap = LinkedHashMap<String, RequestBody>()
         val cacheDir = cacheDir
 
-        for((index, bitmap) in images.withIndex()){
+        for ((index, bitmap) in images.withIndex()) {
             val file = File(cacheDir, "photo$index.jpeg")
             try {
                 val fos = FileOutputStream(file)
@@ -250,8 +319,8 @@ class AddListingActivity : AppCompatActivity() {
 
             // create request body for image file
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-            val image = MultipartBody.Part.createFormData("photo", file.name, requestFile)
-            imageParts.add(image)
+            val imagePart = MultipartBody.Part.createFormData("images", file.name, requestFile)
+            imageParts.add(imagePart)
         }
 
         val title = RequestBody.create(MediaType.parse("text/plain"), itemTitleInput?.text.toString())
@@ -261,15 +330,14 @@ class AddListingActivity : AppCompatActivity() {
         val statusListing = RequestBody.create(MediaType.parse("text/plain"), "AVAILABLE")
         val userID = RequestBody.create(MediaType.parse("text/plain"), "1")
 
-
-        val call = apiService?.postListing(
+        apiService?.postListing(
             title,
-            imageParts,
+            userID,
             category,
             description,
             condition,
             statusListing,
-            userID
+            imageParts
         )?.enqueue(object : Callback<Listing> {
             override fun onResponse(call: Call<Listing>, response: retrofit2.Response<Listing>) {
                 if (response.isSuccessful) {
@@ -287,9 +355,7 @@ class AddListingActivity : AppCompatActivity() {
                 Log.e("UploadFailure:", "Error: ${t.message}", t)
             }
         })
-
-
-    } // end of uploadListingToServer
+    }
 
 
     private fun openGallery() {
