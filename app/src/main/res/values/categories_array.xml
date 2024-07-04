@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="categories_array">
+        <item>ACTION_FIGURES</item>
+        <item>DOLLS</item>
+        <item>CONSTRUCTION_TOYS</item>
+        <item>VEHICLES</item>
+        <item>EDUCATIONAL_TOYS</item>
+        <item>ELECTRONIC_TOYS</item>
+        <item>OTHER</item>
+    </string-array>
+</resources>
