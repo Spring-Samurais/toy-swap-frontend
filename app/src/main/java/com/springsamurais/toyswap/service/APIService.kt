@@ -22,7 +22,7 @@ interface APIService {
         @Part("description") description: RequestBody,
         @Part("condition") condition: RequestBody,
         @Part("statusListing") statusListing: RequestBody,
-        @Part("userid") userid: RequestBody
+        @Part("userID") userid: RequestBody
     ): Call<Listing>
 
     @POST("login")
