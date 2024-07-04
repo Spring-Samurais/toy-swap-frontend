@@ -7,5 +7,5 @@ data class Comment(
     var text: String? ,
     var commenter: Member?,
     var listing: Listing?,
-    var dateCommented: Date?
+    var dateCommented: String?
 )
