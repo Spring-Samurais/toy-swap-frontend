@@ -14,14 +14,15 @@ interface APIService {
     fun getListings(): Call<List<Listing>>
 
     @Multipart
-    @POST("/api/listings")
+    @POST("/api/v1/listings")
     fun postListing(
         @Part("title") title: RequestBody,
         @Part photo: MultipartBody.Part?,
         @Part("category") category: RequestBody,
         @Part("description") description: RequestBody,
         @Part("condition") condition: RequestBody,
-        @Part("statusListing") statusListing: RequestBody
+        @Part("statusListing") statusListing: RequestBody,
+        @Part("userid") userid: RequestBody
     ): Call<Listing>
 
     @POST("login")
