@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -69,11 +71,16 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
             comments = commentData
             displayInRecyclerView()
         }
-        model.getComments(id!!).observe(this, listingsObserver)
+        model.getComments(id!!).observe(this, commentObserver)
     }
 
     private fun displayInRecyclerView() {
-        TODO("Not yet implemented")
+        val adapter = CommentAdapter(comments!!, this)
+        val recyclerView: RecyclerView = findViewById(R.id.listing_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+        recyclerView.hasFixedSize()
+        adapter.notifyDataSetChanged()
     }
 
     override fun onMapReady(map: GoogleMap) {
