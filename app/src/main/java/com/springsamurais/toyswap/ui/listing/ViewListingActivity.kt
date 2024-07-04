@@ -67,9 +67,11 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun getListingComments(id: Long?) {
 
-        val commentObserver = Observer<List<Comment>> {commentData ->
-            comments = commentData
-            displayInRecyclerView()
+        val commentObserver = Observer<List<Comment>?> {commentData ->
+            if (commentData != null) {
+                comments = commentData
+                displayInRecyclerView()
+            }
         }
         model.getComments(id!!).observe(this, commentObserver)
     }

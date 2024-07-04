@@ -10,7 +10,7 @@ class ViewListingViewModel(application: Application) : AndroidViewModel(applicat
 
     private val repository: CommentRepository = CommentRepository(application)
 
-    fun getComments(id: Long): MutableLiveData<List<Comment>> {
+    fun getComments(id: Long): MutableLiveData<List<Comment>?> {
         return repository.getCommentData(id)
     }
 
