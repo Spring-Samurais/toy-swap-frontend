@@ -7,7 +7,9 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -20,8 +22,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.gson.GsonBuilder
+import com.springsamurais.toyswap.databinding.ActivityAddListingBinding
 import com.springsamurais.toyswap.model.Listing
 import com.springsamurais.toyswap.service.APIService
+import com.springsamurais.toyswap.service.RetrofitInstance
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -49,6 +54,7 @@ class AddListingActivity : AppCompatActivity() {
     var cancelButton: Button? = null;
     var apiService: APIService? = null;
 
+
     private val REQUEST_CAMERA_PERMISSION = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,18 +67,37 @@ class AddListingActivity : AppCompatActivity() {
         galleryImageButton = findViewById(com.springsamurais.toyswap.R.id.gallery_image_button)
         itemTitleInput = findViewById(com.springsamurais.toyswap.R.id.item_title_input)
         itemDescriptionInput = findViewById(com.springsamurais.toyswap.R.id.item_description_input)
-        conditionSpinner = findViewById(com.springsamurais.toyswap.R.id.condition_spinner)
-        categorySpinner = findViewById(com.springsamurais.toyswap.R.id.category_spinner)
+
+
         addListingButton = findViewById(com.springsamurais.toyswap.R.id.add_listing_button)
         cancelButton = findViewById(com.springsamurais.toyswap.R.id.cancel_button)
 
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8080/api/listings/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        conditionSpinner = findViewById(com.springsamurais.toyswap.R.id.condition_spinner)
+        ArrayAdapter.createFromResource(
+            this,
+            com.springsamurais.toyswap.R.array.conditions_array,
+            android.R.layout.simple_spinner_item
+        ).also{
+                adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            conditionSpinner?.adapter = adapter
+        }
 
-        apiService = retrofit.create(APIService::class.java)
+
+        categorySpinner = findViewById(com.springsamurais.toyswap.R.id.category_spinner)
+        ArrayAdapter.createFromResource(
+            this,
+            com.springsamurais.toyswap.R.array.categories_array,
+            android.R.layout.simple_spinner_item
+        ).also{
+                adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            categorySpinner?.adapter = adapter
+        }
+
+
+        apiService = RetrofitInstance.instance
 
         cancelButton?.setOnClickListener(View.OnClickListener {
             finish()
@@ -115,10 +140,10 @@ class AddListingActivity : AppCompatActivity() {
     private fun uploadListingToServer() {
         selectedBitmap?.let { bitmap ->
             // convert bitmap to file
-            val file = File(cacheDir, "photo.png")
+            val file = File(cacheDir, "photo.jpeg")
             try {
                 val fos = FileOutputStream(file)
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
                 fos.flush()
                 fos.close()
             } catch (e: IOException) {
@@ -128,7 +153,6 @@ class AddListingActivity : AppCompatActivity() {
 
             // create request body for image file
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-
 
             val photo = MultipartBody.Part.createFormData("photo", file.name, requestFile)
 
@@ -152,7 +176,8 @@ class AddListingActivity : AppCompatActivity() {
                 categorySpinner?.selectedItem.toString()
             )
 
-            val statusListing = RequestBody.create(MediaType.parse("text/plain"), "available")
+            val statusListing = RequestBody.create(MediaType.parse("text/plain"), "AVAILABLE")
+            val userid = RequestBody.create(MediaType.parse("text/plain"), "1")
 
             // call API to upload listing
             val call = apiService?.postListing(
@@ -161,7 +186,8 @@ class AddListingActivity : AppCompatActivity() {
                 category,
                 description,
                 condition,
-                statusListing
+                statusListing,
+                userid
             )?.enqueue(object : Callback<Listing> {
                 override fun onResponse(
                     call: Call<Listing>,
@@ -174,20 +200,25 @@ class AddListingActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
+                        val errorBody = response.errorBody()?.string()
                         Toast.makeText(
                             this@AddListingActivity,
-                            "Error Uploading Listing ${title.toString()} + ${description.toString()}",
+                            "Error Uploading Listing: $errorBody",
                             Toast.LENGTH_LONG
                         ).show()
+                        Log.e("UploadError:", "Error response $errorBody")
                     }
                 }
 
                 override fun onFailure(call: Call<Listing>, t: Throwable) {
+                    val errorMessage = t.message
+
                     Toast.makeText(
                         this@AddListingActivity,
-                        "Something went wrong ",
-                        Toast.LENGTH_SHORT
+                        "Something went wrong $errorMessage",
+                        Toast.LENGTH_LONG
                     ).show()
+                    Log.e("UploadFailure:", "Error: ${t.message}",t)
                 }
             })
 
@@ -204,22 +235,20 @@ class AddListingActivity : AppCompatActivity() {
 
     var uploadLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult<Intent, ActivityResult>(
-            ActivityResultContracts.StartActivityForResult(),
-            object : ActivityResultCallback<ActivityResult?> {
-                override fun onActivityResult(result: ActivityResult?) {
-                    if (result?.resultCode == RESULT_OK) {
-                        val data = result.data
-                        val imageUri = data?.data
-                        try {
-                            selectedBitmap =
-                                MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
-                            imageView!!.setImageBitmap(selectedBitmap)
-                        } catch (e: IOException) {
-                            throw RuntimeException(e)
-                        }
-                    }
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result?.resultCode == RESULT_OK) {
+                val data = result.data
+                val imageUri = data?.data
+                try {
+                    selectedBitmap =
+                        MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+                    imageView!!.setImageBitmap(selectedBitmap)
+                } catch (e: IOException) {
+                    throw RuntimeException(e)
                 }
-            })
+            }
+        }
 
 
     fun openCamera() {
@@ -229,17 +258,15 @@ class AddListingActivity : AppCompatActivity() {
 
     var cameraLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult<Intent, ActivityResult>(
-            ActivityResultContracts.StartActivityForResult(),
-            object : ActivityResultCallback<ActivityResult?> {
-                override fun onActivityResult(result: ActivityResult?) {
-                    if (result?.resultCode == RESULT_OK) {
-                        val data = result.data
-                        val bitmap = data?.extras?.get("data") as Bitmap
-                        selectedBitmap = bitmap
-                        imageView!!.setImageBitmap(bitmap)
-                    }
-                }
-            })
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result?.resultCode == RESULT_OK) {
+                val data = result.data
+                val bitmap = data?.extras?.get("data") as Bitmap
+                selectedBitmap = bitmap
+                imageView!!.setImageBitmap(bitmap)
+            }
+        }
 
 
 } // end of class
