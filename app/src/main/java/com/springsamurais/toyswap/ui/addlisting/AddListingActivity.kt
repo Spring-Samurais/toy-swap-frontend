@@ -137,10 +137,107 @@ class AddListingActivity : AppCompatActivity() {
         )
     }
 
-    private fun uploadListingToServer() {
-        selectedBitmap?.let { bitmap ->
-            // convert bitmap to file
-            val file = File(cacheDir, "photo.jpeg")
+//    private fun uploadListingToServer() {
+//        selectedBitmap?.let { bitmap ->
+//            // convert bitmap to file
+//            val file = File(cacheDir, "photo.jpeg")
+//            try {
+//                val fos = FileOutputStream(file)
+//                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+//                fos.flush()
+//                fos.close()
+//            } catch (e: IOException) {
+//                Toast.makeText(this, "Error Uploading Image", Toast.LENGTH_SHORT).show()
+//                return
+//            }
+//
+//            // create request body for image file
+//            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+//
+//            val image = MultipartBody.Part.createFormData("photo", file.name, requestFile)
+//
+//            // prepare text parts for request body
+//            val title = RequestBody.create(
+//                MediaType.parse("text/plain"),
+//                itemTitleInput?.text.toString()
+//            )
+//
+//            val description = RequestBody.create(
+//                MediaType.parse("text/plain"),
+//                itemDescriptionInput?.text.toString()
+//            )
+//
+//            val condition = RequestBody.create(
+//                MediaType.parse("text/plain"),
+//                conditionSpinner?.selectedItem.toString()
+//            )
+//            val category = RequestBody.create(
+//                MediaType.parse("text/plain"),
+//                categorySpinner?.selectedItem.toString()
+//            )
+//
+//            val statusListing = RequestBody.create(MediaType.parse("text/plain"), "AVAILABLE")
+//            val userID = RequestBody.create(MediaType.parse("text/plain"), "1")
+//
+//            // call API to upload listing
+//            val call = apiService?.postListing(
+//                title,
+//                image,
+//                category,
+//                description,
+//                condition,
+//                statusListing,
+//                userID
+//            )?.enqueue(object : Callback<Listing> {
+//                override fun onResponse(
+//                    call: Call<Listing>,
+//                    response: retrofit2.Response<Listing>
+//                ) {
+//                    if (response.isSuccessful) {
+//                        Toast.makeText(
+//                            this@AddListingActivity,
+//                            "Listing Uploaded",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    } else {
+//                        val errorBody = response.errorBody()?.string()
+//                        Toast.makeText(
+//                            this@AddListingActivity,
+//                            "Error Uploading Listing: $errorBody",
+//                            Toast.LENGTH_LONG
+//                        ).show()
+//                        Log.e("UploadError:", "Error response $errorBody")
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<Listing>, t: Throwable) {
+//                    val errorMessage = t.message
+//
+//                    Toast.makeText(
+//                        this@AddListingActivity,
+//                        "Something went wrong $errorMessage",
+//                        Toast.LENGTH_LONG
+//                    ).show()
+//                    Log.e("UploadFailure:", "Error: ${t.message}",t)
+//                }
+//            })
+//
+//        } ?: run {
+//            Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show()
+//        }
+//    } // end of uploadListingToServer
+
+    private fun uploadListingToServer(images: List<Bitmap>){
+        if(images.isEmpty()){
+            Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val imageParts = mutableListOf<MultipartBody.Part>()
+        val cacheDir = cacheDir
+
+        for((index, bitmap) in images.withIndex()){
+            val file = File(cacheDir, "photo$index.jpeg")
             try {
                 val fos = FileOutputStream(file)
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
@@ -153,78 +250,45 @@ class AddListingActivity : AppCompatActivity() {
 
             // create request body for image file
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-
             val image = MultipartBody.Part.createFormData("photo", file.name, requestFile)
-
-            // prepare text parts for request body
-            val title = RequestBody.create(
-                MediaType.parse("text/plain"),
-                itemTitleInput?.text.toString()
-            )
-
-            val description = RequestBody.create(
-                MediaType.parse("text/plain"),
-                itemDescriptionInput?.text.toString()
-            )
-
-            val condition = RequestBody.create(
-                MediaType.parse("text/plain"),
-                conditionSpinner?.selectedItem.toString()
-            )
-            val category = RequestBody.create(
-                MediaType.parse("text/plain"),
-                categorySpinner?.selectedItem.toString()
-            )
-
-            val statusListing = RequestBody.create(MediaType.parse("text/plain"), "AVAILABLE")
-            val userID = RequestBody.create(MediaType.parse("text/plain"), "1")
-
-            // call API to upload listing
-            val call = apiService?.postListing(
-                title,
-                image,
-                category,
-                description,
-                condition,
-                statusListing,
-                userID
-            )?.enqueue(object : Callback<Listing> {
-                override fun onResponse(
-                    call: Call<Listing>,
-                    response: retrofit2.Response<Listing>
-                ) {
-                    if (response.isSuccessful) {
-                        Toast.makeText(
-                            this@AddListingActivity,
-                            "Listing Uploaded",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        val errorBody = response.errorBody()?.string()
-                        Toast.makeText(
-                            this@AddListingActivity,
-                            "Error Uploading Listing: $errorBody",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        Log.e("UploadError:", "Error response $errorBody")
-                    }
-                }
-
-                override fun onFailure(call: Call<Listing>, t: Throwable) {
-                    val errorMessage = t.message
-
-                    Toast.makeText(
-                        this@AddListingActivity,
-                        "Something went wrong $errorMessage",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    Log.e("UploadFailure:", "Error: ${t.message}",t)
-                }
-            })
-
-        } ?: run {
-            Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show()
+            imageParts.add(image)
         }
+
+        val title = RequestBody.create(MediaType.parse("text/plain"), itemTitleInput?.text.toString())
+        val description = RequestBody.create(MediaType.parse("text/plain"), itemDescriptionInput?.text.toString())
+        val condition = RequestBody.create(MediaType.parse("text/plain"), conditionSpinner?.selectedItem.toString())
+        val category = RequestBody.create(MediaType.parse("text/plain"), categorySpinner?.selectedItem.toString())
+        val statusListing = RequestBody.create(MediaType.parse("text/plain"), "AVAILABLE")
+        val userID = RequestBody.create(MediaType.parse("text/plain"), "1")
+
+
+        val call = apiService?.postListing(
+            title,
+            imageParts,
+            category,
+            description,
+            condition,
+            statusListing,
+            userID
+        )?.enqueue(object : Callback<Listing> {
+            override fun onResponse(call: Call<Listing>, response: retrofit2.Response<Listing>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(this@AddListingActivity, "Listing Uploaded", Toast.LENGTH_SHORT).show()
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    Toast.makeText(this@AddListingActivity, "Error Uploading Listing: $errorBody", Toast.LENGTH_LONG).show()
+                    Log.e("UploadError:", "Error response $errorBody")
+                }
+            }
+
+            override fun onFailure(call: Call<Listing>, t: Throwable) {
+                val errorMessage = t.message
+                Toast.makeText(this@AddListingActivity, "Something went wrong $errorMessage", Toast.LENGTH_LONG).show()
+                Log.e("UploadFailure:", "Error: ${t.message}", t)
+            }
+        })
+
+
     } // end of uploadListingToServer
 
 
