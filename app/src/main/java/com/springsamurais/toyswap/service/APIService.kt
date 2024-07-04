@@ -17,7 +17,7 @@ interface APIService {
     @POST("/api/v1/listings")
     fun postListing(
         @Part("title") title: RequestBody,
-        @Part photo: MultipartBody.Part?,
+        @Part image: MultipartBody.Part?,
         @Part("category") category: RequestBody,
         @Part("description") description: RequestBody,
         @Part("condition") condition: RequestBody,
