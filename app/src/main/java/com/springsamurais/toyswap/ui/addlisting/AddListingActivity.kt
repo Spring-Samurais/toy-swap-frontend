@@ -177,7 +177,7 @@ class AddListingActivity : AppCompatActivity() {
             )
 
             val statusListing = RequestBody.create(MediaType.parse("text/plain"), "AVAILABLE")
-            val userid = RequestBody.create(MediaType.parse("text/plain"), "1")
+            val userID = RequestBody.create(MediaType.parse("text/plain"), "1")
 
             // call API to upload listing
             val call = apiService?.postListing(
@@ -187,7 +187,7 @@ class AddListingActivity : AppCompatActivity() {
                 description,
                 condition,
                 statusListing,
-                userid
+                userID
             )?.enqueue(object : Callback<Listing> {
                 override fun onResponse(
                     call: Call<Listing>,
