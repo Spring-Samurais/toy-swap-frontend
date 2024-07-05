@@ -36,17 +36,17 @@ import java.io.IOException
 
 class AddListingActivity : AppCompatActivity() {
 
-    var imageView: ImageView? = null;
-    var selectedBitmap: Bitmap? = null;
-    var takeImageButton: Button? = null;
-    var galleryImageButton: Button? = null;
-    var itemTitleInput: EditText? = null;
-    var itemDescriptionInput: EditText? = null;
-    var conditionSpinner: Spinner? = null;
-    var categorySpinner: Spinner? = null;
-    var addListingButton: Button? = null;
-    var cancelButton: Button? = null;
-    var apiService: APIService? = null;
+    var imageView: ImageView? = null
+    var selectedBitmap: Bitmap? = null
+    var takeImageButton: Button? = null
+    var galleryImageButton: Button? = null
+    var itemTitleInput: EditText? = null
+    var itemDescriptionInput: EditText? = null
+    var conditionSpinner: Spinner? = null
+    var categorySpinner: Spinner? = null
+    var addListingButton: Button? = null
+    var cancelButton: Button? = null
+    var apiService: APIService? = null
 
 
     private val REQUEST_CAMERA_PERMISSION = 100
