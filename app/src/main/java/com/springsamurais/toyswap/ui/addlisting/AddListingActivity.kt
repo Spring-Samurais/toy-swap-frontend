@@ -148,16 +148,7 @@ class AddListingActivity : AppCompatActivity() {
 
 
     private fun uploadListingToServer(images: List<Bitmap>) {
-//        if (images.isEmpty()) {
-//            Toast.makeText(this, "Please select an image", Toast.LENGTH_LONG).show()
-//
-//            // Use a Handler to delay the return statement
-//            Handler(Looper.getMainLooper()).postDelayed({
-//                return@postDelayed
-//            }, Toast.LENGTH_LONG.toLong())
-//
-//            return
-//        }
+
 
         val imageParts = mutableListOf<MultipartBody.Part>()
         //val imageMap = LinkedHashMap<String, RequestBody>()
