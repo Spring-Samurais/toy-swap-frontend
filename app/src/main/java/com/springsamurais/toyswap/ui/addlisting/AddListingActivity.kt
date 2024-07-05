@@ -124,6 +124,10 @@ class AddListingActivity : AppCompatActivity() {
         })
 
         addListingButton?.setOnClickListener(View.OnClickListener {
+            if(itemTitleInput?.text.toString().isEmpty() || itemDescriptionInput?.text.toString().isEmpty()) {
+                Toast.makeText(this, "Please enter title, description and image", Toast.LENGTH_LONG).show()
+                return@OnClickListener
+            }
 
             if(selectedBitmap == null) {
                 Toast.makeText(this, "Please select an image", Toast.LENGTH_LONG).show()
