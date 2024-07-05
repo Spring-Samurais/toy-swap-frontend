@@ -93,9 +93,9 @@ class AddListingActivity : AppCompatActivity() {
 
         apiService = RetrofitInstance.instance
 
-        cancelButton?.setOnClickListener(View.OnClickListener {
+        cancelButton?.setOnClickListener {
             finish()
-        })
+        }
 
         takeImageButton?.setOnClickListener(View.OnClickListener {
             // check camera permission
