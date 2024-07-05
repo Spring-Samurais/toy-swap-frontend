@@ -97,7 +97,7 @@ class AddListingActivity : AppCompatActivity() {
             finish()
         }
 
-        takeImageButton?.setOnClickListener(View.OnClickListener {
+        takeImageButton?.setOnClickListener {
             // check camera permission
             if (ContextCompat.checkSelfPermission(
                     this,
@@ -109,7 +109,7 @@ class AddListingActivity : AppCompatActivity() {
             } else {
                 requestCameraPermission()
             }
-        })
+        }
 
         galleryImageButton?.setOnClickListener{
             openGallery()
