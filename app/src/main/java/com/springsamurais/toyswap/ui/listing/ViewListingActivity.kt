@@ -1,14 +1,16 @@
 package com.springsamurais.toyswap.ui.listing
 
-import android.location.Address
 import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -18,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.springsamurais.toyswap.R
 import com.springsamurais.toyswap.databinding.ActivityViewListingBinding
+import com.springsamurais.toyswap.model.Comment
 import com.springsamurais.toyswap.model.Listing
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,7 +30,9 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
     private var binding: ActivityViewListingBinding? = null
     private var handler: ViewListingClickHandlers? = null;
     private var listing: Listing? = null;
+    private var comments: List<Comment>? = null;
     private lateinit var geocoder: Geocoder
+    private lateinit var model: ViewListingViewModel
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +40,7 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_view_listing)
 
         listing = intent.getParcelableExtra("LISTING_ITEM", Listing::class.java)
+        model = ViewModelProvider(this)[ViewListingViewModel::class.java]
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_view_listing)
         handler = ViewListingClickHandlers(this)
@@ -55,6 +61,28 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
             .add(R.id.map_container, mapFragment)
             .commit()
         mapFragment.getMapAsync(this)
+
+        getListingComments(listing!!.id)
+    }
+
+    private fun getListingComments(id: Long?) {
+
+        val commentObserver = Observer<List<Comment>?> {commentData ->
+            if (commentData != null) {
+                comments = commentData
+                displayInRecyclerView()
+            }
+        }
+        model.getComments(id!!).observe(this, commentObserver)
+    }
+
+    private fun displayInRecyclerView() {
+        val adapter = CommentAdapter(comments!!, this)
+        val recyclerView: RecyclerView = findViewById(R.id.listing_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+        recyclerView.hasFixedSize()
+        adapter.notifyDataSetChanged()
     }
 
     override fun onMapReady(map: GoogleMap) {

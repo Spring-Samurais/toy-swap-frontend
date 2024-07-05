@@ -12,14 +12,14 @@ class ListingRepository(app: Application) {
 
     var data = MutableLiveData<List<Listing>>()
 
-    fun getLiveData() : MutableLiveData<List<Listing>> {
+    fun getListingData() : MutableLiveData<List<Listing>> {
         val listService : APIService = RetrofitInstance.instance
         val call: Call<List<Listing>> = listService.getListings()
 
         call.enqueue(object: Callback<List<Listing>> {
             override fun onResponse(call: Call<List<Listing>>, response: Response<List<Listing>>) {
                 val retrievedListings = response.body()
-                data.value = retrievedListings
+                data.value = retrievedListings!!
             }
 
             override fun onFailure(p0: Call<List<Listing>>, p1: Throwable) {

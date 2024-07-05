@@ -212,7 +212,7 @@
                         android:text=""
                         android:fontFamily="@font/inter"
                         android:textSize="14dp" />
-                
+
                 <TextView
                         android:id="@+id/comment_label"
                         android:layout_width="wrap_content"
@@ -220,21 +220,34 @@
                         app:layout_constraintTop_toBottomOf="@id/listing_full_date_label"
                         app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="5dp"
-                        android:layout_marginTop="25dp"
+                        android:layout_marginTop="60dp"
                         android:text="Comments"
                         android:fontFamily="@font/patua_one"
                         android:textColor="@color/blue"
                         android:textSize="20sp" />
 
-                <androidx.cardview.widget.CardView
+                <Button
+                        android:id="@+id/add_comment_button"
+                        android:onClick="@{clickHandler::addCommentButtonClicked}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toTopOf="@id/listing_recycler_view"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Add Comment"
+                        android:backgroundTint="@color/blue" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/listing_recycler_view"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="wrap_content"
                         app:layout_constraintTop_toBottomOf="@id/comment_label"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginTop="15dp">
+                        android:layout_marginTop="20dp">
 
-                </androidx.cardview.widget.CardView>
+                </androidx.recyclerview.widget.RecyclerView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

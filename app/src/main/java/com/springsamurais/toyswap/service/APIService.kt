@@ -1,5 +1,6 @@
 package com.springsamurais.toyswap.service
 
+import com.springsamurais.toyswap.model.Comment
 import com.springsamurais.toyswap.model.Listing
 import com.springsamurais.toyswap.ui.login.data.LoginRequest
 import com.springsamurais.toyswap.ui.login.data.LoginResponse
@@ -11,7 +12,10 @@ import retrofit2.http.*
 interface APIService {
 
     @GET("listings")
-    fun getListings(): Call<List<Listing>>
+    fun getListings() : Call<List<Listing>>
+
+    @GET("comments/listing/{id}")
+    fun getCommentsByListing(@Path("id") listingId: Long) : Call<List<Comment>>
 
     @Multipart
     @POST("/api/v1/listings")
