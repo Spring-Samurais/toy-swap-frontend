@@ -21,12 +21,12 @@ interface APIService {
     @POST("/api/v1/listings")
     fun postListing(
         @Part("title") title: RequestBody,
-        @Part photo: MultipartBody.Part?,
+        @Part("userID") userid: RequestBody,
         @Part("category") category: RequestBody,
         @Part("description") description: RequestBody,
         @Part("condition") condition: RequestBody,
         @Part("statusListing") statusListing: RequestBody,
-        @Part("userid") userid: RequestBody
+        @Part images: List<MultipartBody.Part>
     ): Call<Listing>
 
     @POST("login")
