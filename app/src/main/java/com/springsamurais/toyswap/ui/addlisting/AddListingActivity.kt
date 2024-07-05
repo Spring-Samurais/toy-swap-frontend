@@ -111,9 +111,9 @@ class AddListingActivity : AppCompatActivity() {
             }
         })
 
-        galleryImageButton?.setOnClickListener(View.OnClickListener {
+        galleryImageButton?.setOnClickListener{
             openGallery()
-        })
+        }
 
         addListingButton?.setOnClickListener(View.OnClickListener {
             if(itemTitleInput?.text.toString().isEmpty() || itemDescriptionInput?.text.toString().isEmpty()) {
