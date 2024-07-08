@@ -92,6 +92,19 @@
                         android:textSize="16dp"
                         android:text="@{listing.statusListing}" />
 
+                <TextView
+                        android:id="@+id/category_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:padding="10dp"
+                        android:fontFamily="@font/inter"
+                        android:background="@drawable/rounded_yellow"
+                        android:textColor="@color/grey"
+                        android:textSize="16dp"
+                        android:text="@{listing.category}" />
+
                 <ImageView
                         android:id="@+id/listing_full_image"
                         android:layout_width="match_parent"
