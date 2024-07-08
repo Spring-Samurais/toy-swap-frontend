@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "879668709470",
+    "project_id": "toy-swap-api",
+    "storage_bucket": "toy-swap-api.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879668709470:android:8ec9fe1d4b8371b0d54ccf",
+        "android_client_info": {
+          "package_name": "com.springsamurais.toyswap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879668709470-48r4vq8ujr9r3uki53hru5v4937er98u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RadBbBLhMpI7Qvg-8eS9wn1q4iVZA-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879668709470-48r4vq8ujr9r3uki53hru5v4937er98u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

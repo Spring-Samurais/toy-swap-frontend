@@ -25,8 +25,10 @@ import com.springsamurais.toyswap.model.Listing
 import com.springsamurais.toyswap.service.APIService
 import com.springsamurais.toyswap.service.RetrofitInstance
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import java.io.File
@@ -163,17 +165,17 @@ class AddListingActivity : AppCompatActivity() {
             }
 
             // create request body for image file
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val imagePart = MultipartBody.Part.createFormData("images", file.name, requestFile)
             imageParts.add(imagePart)
         }
 
-        val title = RequestBody.create(MediaType.parse("text/plain"), itemTitleInput?.text.toString())
-        val description = RequestBody.create(MediaType.parse("text/plain"), itemDescriptionInput?.text.toString())
-        val condition = RequestBody.create(MediaType.parse("text/plain"), conditionSpinner?.selectedItem.toString())
-        val category = RequestBody.create(MediaType.parse("text/plain"), categorySpinner?.selectedItem.toString())
-        val statusListing = RequestBody.create(MediaType.parse("text/plain"), "AVAILABLE")
-        val userID = RequestBody.create(MediaType.parse("text/plain"), "1")
+        val title = itemTitleInput?.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val description = itemDescriptionInput?.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val condition = conditionSpinner?.selectedItem.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val category = categorySpinner?.selectedItem.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val statusListing = "AVAILABLE".toRequestBody("text/plain".toMediaTypeOrNull())
+        val userID = "1".toRequestBody("text/plain".toMediaTypeOrNull())
 
         apiService?.postListing(
             title,

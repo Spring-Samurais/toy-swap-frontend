@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Toy Swap App</string>
     <string name="log_in">Login</string>
+    <string name="default_web_client_id">879668709470-48r4vq8ujr9r3uki53hru5v4937er98u.apps.googleusercontent.com</string>
 </resources>

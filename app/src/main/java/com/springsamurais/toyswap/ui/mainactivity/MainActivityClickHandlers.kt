@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import com.springsamurais.toyswap.ui.addlisting.AddListingActivity
+import com.springsamurais.toyswap.ui.login.ActivityResultLauncher
 
 class MainActivityClickHandlers(private var context: Context) {
 
@@ -12,7 +13,9 @@ class MainActivityClickHandlers(private var context: Context) {
         context.startActivity(intent)
     }
 
-    fun loginButtonClicked() {
+    fun loginButtonClicked(view: View) {
+        val intent =Intent(view.context, ActivityResultLauncher::class.java)
+        context.startActivity(intent)
 
     }
 }
