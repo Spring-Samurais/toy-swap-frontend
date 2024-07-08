@@ -213,49 +213,69 @@
                         android:fontFamily="@font/inter"
                         android:textSize="14dp"/>
 
-                <TextView
-                        android:id="@+id/comment_label"
-                        android:layout_width="wrap_content"
+<!--                <TextView-->
+<!--                        android:id="@+id/comment_label"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/listing_full_date_label"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintEnd_toStartOf="@id/add_comment_button"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:layout_marginTop="60dp"-->
+<!--                        android:text="Comments"-->
+<!--                        android:fontFamily="@font/patua_one"-->
+<!--                        android:textColor="@color/blue"-->
+<!--                        android:textSize="20sp"/>-->
+
+                <LinearLayout
+                        android:id="@+id/center_buttons"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/listing_full_date_label"
+                        app:layout_constraintTop_toBottomOf="@id/listing_full_date"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/add_comment_button"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="60dp"
-                        android:text="Comments"
-                        android:fontFamily="@font/patua_one"
-                        android:textColor="@color/blue"
-                        android:textSize="20sp"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:padding="10dp"
+                        android:orientation="horizontal"
+                        android:gravity="left"
+                >
 
-                <Button
-                        android:id="@+id/add_comment_button"
-                        android:onClick="@{clickHandler::addCommentButtonClicked}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toTopOf="@id/listing_recycler_view"
-                        app:layout_constraintEnd_toStartOf="@id/update_listing_button"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="Add"
-                        android:backgroundTint="@color/blue"/>
+                    <Button
+                            android:id="@+id/add_comment_button"
+                            android:onClick="@{clickHandler::addCommentButtonClicked}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Comment"
+                            android:layout_margin="5dp"
+                            android:padding="1dp"
+                            android:backgroundTint="@color/blue"/>
 
-                <Button
-                        android:id="@+id/update_listing_button"
-                        android:onClick="@{clickHandler::updateListingButtonClicked}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toTopOf="@id/listing_recycler_view"
-                        app:layout_constraintStart_toEndOf="@id/add_comment_button"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="Update Listing"
-                        android:backgroundTint="@color/blue"/>
+                    <Button
+                            android:id="@+id/update_listing_button"
+                            android:onClick="@{clickHandler::updateListingButtonClicked}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Update"
+                            android:layout_margin="5dp"
+                            android:backgroundTint="@color/blue"/>
+
+                    <Button
+                            android:id="@+id/delete_listing_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Delete"
+                            android:layout_margin="5dp"
+                            android:backgroundTint="#E91E63"
+                    />
+                </LinearLayout>
+
+
+
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/listing_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/comment_label"
+                        app:layout_constraintTop_toBottomOf="@id/center_buttons"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginTop="20dp">
