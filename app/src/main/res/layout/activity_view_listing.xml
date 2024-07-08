@@ -241,6 +241,7 @@
 
                 <Button
                         android:id="@+id/update_listing_button"
+                        android:onClick="@{clickHandler::updateListingButtonClicked}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toTopOf="@id/listing_recycler_view"
