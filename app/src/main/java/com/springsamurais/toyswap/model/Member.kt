@@ -8,7 +8,8 @@ class Member (
     var name: String? = null,
     var nickname: String? = null,
     var location: String? = null,
-    var listings: List<Listing>? = null
+    var listings: List<Listing>? = null,
+    var password: String? = null,
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Long::class.java.classLoader) as? Long,

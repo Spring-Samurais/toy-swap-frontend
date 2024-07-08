@@ -64,14 +64,7 @@ class LoginActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Member>, response: Response<Member>) {
                 if (response.isSuccessful) {
                     val returnedMember = response.body()!!
-                    Log.d("RETURNED MEMBER", "Result: ${returnedMember.nickname} with location ${returnedMember.location}")
                     Toast.makeText(this@LoginActivity, "Logged in successfully", Toast.LENGTH_SHORT).show()
-
-                    // Add to SharedPreferences
-//                    val editor: SharedPreferences.Editor = sharedPreferences.edit()
-//                    editor.putString("username", returnedMember.nickname!!)
-//                    editor.putString("location", returnedMember.location!!)
-//                    editor.commit()
 
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     intent.putExtra("USER", returnedMember)

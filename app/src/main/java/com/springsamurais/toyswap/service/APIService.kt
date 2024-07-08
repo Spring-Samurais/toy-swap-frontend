@@ -33,6 +33,9 @@ interface APIService {
     @POST("members/login")
     fun login(@Body loginRequest: LoginRequest): Call<Member>
 
+    @POST("members/register")
+    fun register(@Body member: Member): Call<Member>
+
     @PUT("listings/{id}")
     fun updateListing() // To be implemented
 
