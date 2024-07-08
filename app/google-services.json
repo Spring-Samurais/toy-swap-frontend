@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "879668709470-adiqjkjr3kaf5rcaikdttti98fss5qfl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.springsamurais.toyswap",
+            "certificate_hash": "6125485b3e45e2d8c716be88227079655e49820b"
+          }
+        },
+        {
+          "client_id": "879668709470-p6sjamiq51m8idjqnt3lev9a66p2j80g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.springsamurais.toyswap",
+            "certificate_hash": "571a8d8609caf306d2f7b629f17bc05006c70324"
+          }
+        },
+        {
           "client_id": "879668709470-48r4vq8ujr9r3uki53hru5v4937er98u.apps.googleusercontent.com",
           "client_type": 3
         }
