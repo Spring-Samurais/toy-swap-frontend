@@ -78,6 +78,8 @@
                 android:backgroundTint="@color/blue" />
 
         <Button
+                android:id="@+id/sign_up_button"
+                android:onClick="@{clickHandler::signUpButtonClicked}"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="Sign up"

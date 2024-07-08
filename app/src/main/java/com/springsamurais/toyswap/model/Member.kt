@@ -15,6 +15,7 @@ class Member (
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.createTypedArrayList(Listing)
     ) {
     }
 
@@ -23,6 +24,7 @@ class Member (
         parcel.writeString(name)
         parcel.writeString(nickname)
         parcel.writeString(location)
+        parcel.writeTypedList(listings)
     }
 
     override fun describeContents(): Int {
