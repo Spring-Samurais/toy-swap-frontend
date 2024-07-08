@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import com.springsamurais.toyswap.ui.mainactivity.MainActivity
+import com.springsamurais.toyswap.ui.updatelisting.UpdateListingActivity
 
 class ViewListingClickHandlers(private var context: Context) {
 
@@ -14,6 +15,11 @@ class ViewListingClickHandlers(private var context: Context) {
 
     fun backButtonClicked(view: View) {
         val intent = Intent(view.context, MainActivity::class.java)
+        context.startActivity(intent)
+    }
+
+    fun updateListingButtonClicked(view: View) {
+        val intent = Intent(view.context, UpdateListingActivity::class.java)
         context.startActivity(intent)
     }
 
