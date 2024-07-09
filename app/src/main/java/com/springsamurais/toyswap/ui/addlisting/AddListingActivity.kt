@@ -138,7 +138,7 @@ class AddListingActivity : AppCompatActivity() {
         })
 
         val userDisplay: TextView = findViewById(R.id.user_info)
-        userDisplay.text = "Hi, ${currentUser.nickname}!"
+        userDisplay.text = "Hi, ${currentUser.username}!"
 
     } // end of onCreate
 

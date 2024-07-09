@@ -51,7 +51,7 @@ class CommentAdapter(private val comments: List<Comment>,
         val date: Date? = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH).parse(currentComment.dateCommented!!)
         val formattedDate: String = SimpleDateFormat("dd-MM-yy | HH:mm", Locale.ENGLISH).format(date!!)
 
-        viewHolder.commentUser.text = currentComment.commenter!!.nickname
+        viewHolder.commentUser.text = currentComment.commenter!!.username
         viewHolder.commentBody.text = currentComment.text
         viewHolder.commentDate.text = formattedDate
 

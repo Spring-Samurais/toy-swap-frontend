@@ -1,10 +1,7 @@
 package com.springsamurais.toyswap.ui.mainactivity
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,7 +64,7 @@ class ListingAdapter(private val listings: List<Listing>,
 
         viewHolder.listingName.text  = currentListing.title
         viewHolder.locationText.text = currentListing.member!!.location
-        viewHolder.usernameText.text = currentListing.member!!.nickname
+        viewHolder.usernameText.text = currentListing.member!!.username
         viewHolder.description.text  = currentListing.description
         viewHolder.dateText.text     = formattedDate
 

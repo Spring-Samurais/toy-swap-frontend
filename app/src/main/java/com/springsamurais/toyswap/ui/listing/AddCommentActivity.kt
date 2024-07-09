@@ -17,7 +17,6 @@ import com.springsamurais.toyswap.model.CommentRequest
 import com.springsamurais.toyswap.model.Listing
 import com.springsamurais.toyswap.model.Member
 import com.springsamurais.toyswap.service.RetrofitInstance
-import com.springsamurais.toyswap.ui.mainactivity.MainActivityClickHandlers
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,7 +41,7 @@ class AddCommentActivity : AppCompatActivity() {
         binding.clickHandler = handler
 
         val userText: TextView = findViewById(R.id.user_info)
-        userText.text = "What you saying, ${currentUser.nickname}?"
+        userText.text = "What you saying, ${currentUser.username}?"
 
         val commentInput: EditText = findViewById(R.id.comment_text_input)
         val postBtn: Button = findViewById(R.id.add_comment_button)

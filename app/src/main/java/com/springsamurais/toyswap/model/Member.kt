@@ -7,7 +7,7 @@ class Member (
     var id: Long? = null,
     var name: String? = null,
     var email: String? = null,
-    var nickname: String? = null,
+    var username: String? = null,
     var location: String? = null,
     var listings: List<Listing>? = null,
     var password: String? = null,
@@ -25,7 +25,7 @@ class Member (
         parcel.writeValue(id)
         parcel.writeString(name)
         parcel.writeString(email)
-        parcel.writeString(nickname)
+        parcel.writeString(username)
         parcel.writeString(location)
         parcel.writeTypedList(listings)
     }

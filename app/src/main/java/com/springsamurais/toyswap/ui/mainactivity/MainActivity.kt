@@ -1,11 +1,8 @@
 package com.springsamurais.toyswap.ui.mainactivity
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +15,6 @@ import com.springsamurais.toyswap.R
 import com.springsamurais.toyswap.databinding.ActivityMainBinding
 import com.springsamurais.toyswap.model.Listing
 import com.springsamurais.toyswap.model.Member
-import com.springsamurais.toyswap.service.RetrofitInstance
 import com.springsamurais.toyswap.ui.listing.ViewListingActivity
 
 class MainActivity : AppCompatActivity(), RecyclerViewInterface {
@@ -46,7 +42,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewInterface {
         binding.setClickHandler(handler)
 
         val userDisplay: TextView = findViewById(R.id.main_username_info)
-        userDisplay.text = "Hello, ${currentUser.nickname}!"
+        userDisplay.text = "Hello, ${currentUser.username}!"
 
         getAllListings()
     }

@@ -70,7 +70,7 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback, RecyclerVie
         mapFragment.getMapAsync(this)
 
         val userField: TextView = findViewById(R.id.view_listing_user_info)
-        userField.text = "Like what you see, ${currentUser.nickname}?"
+        userField.text = "Like what you see, ${currentUser.username}?"
 
         getListingComments(listing!!.id)
     }
