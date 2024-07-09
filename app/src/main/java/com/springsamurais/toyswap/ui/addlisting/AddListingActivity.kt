@@ -36,6 +36,7 @@ import retrofit2.Callback
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.UUID
 
 
 class AddListingActivity : AppCompatActivity() {
@@ -161,7 +162,8 @@ class AddListingActivity : AppCompatActivity() {
         val cacheDir = cacheDir
 
         for ((index, bitmap) in images.withIndex()) {
-            val file = File(cacheDir, "photo$index.jpeg")
+            val guid = UUID.randomUUID().toString()
+            val file = File(cacheDir, "photo$guid.jpeg")
             try {
                 val fos = FileOutputStream(file)
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
