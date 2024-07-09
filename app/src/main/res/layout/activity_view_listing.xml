@@ -6,8 +6,8 @@
         xmlns:map="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable 
-                name="listing" 
+        <variable
+                name="listing"
                 type="com.springsamurais.toyswap.model.Listing"/>
         <variable
                 name="member"
@@ -46,7 +46,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginStart="12dp" />
+                    android:layout_marginStart="12dp"/>
 
             <TextView
                     android:id="@+id/view_listing_user_info"
@@ -84,6 +84,7 @@
                         android:id="@+id/status_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:scaleType="fitXY"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         android:padding="10dp"
@@ -91,12 +92,13 @@
                         android:background="@drawable/rounded_green"
                         android:textColor="@color/white"
                         android:textSize="16dp"
-                        android:text="@{listing.statusListing}" />
+                        android:text="@{listing.statusListing}"/>
 
                 <ImageView
                         android:id="@+id/listing_full_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+
                         app:layout_constraintTop_toBottomOf="@id/status_text"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -118,7 +120,7 @@
                         android:textSize="24dp"
                         android:textColor="@color/white"
                         android:padding="8dp"
-                        android:layout_marginTop="20dp" />
+                        android:layout_marginTop="20dp"/>
 
                 <TextView
                         android:id="@+id/listing_full_description"
@@ -130,7 +132,7 @@
                         android:text="@{listing.description}"
                         android:textSize="14dp"
                         android:textAlignment="center"
-                        android:layout_marginTop="20dp" />
+                        android:layout_marginTop="20dp"/>
 
                 <TextView
                         android:id="@+id/listing_full_username"
@@ -142,7 +144,7 @@
                         android:layout_marginEnd="15dp"
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/patua_one"
-                        android:textSize="16dp" />
+                        android:textSize="16dp"/>
 
                 <TextView
                         android:id="@+id/listing_full_location_text"
@@ -154,18 +156,18 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="20dp"
                         android:fontFamily="@font/patua_one"
-                        android:textSize="16dp" />
+                        android:textSize="16dp"/>
 
                 <androidx.fragment.app.FragmentContainerView
-                          android:id="@+id/map_container"
-                          app:layout_constraintTop_toBottomOf="@id/listing_full_location_text"
-                          app:layout_constraintStart_toStartOf="parent"
-                          app:layout_constraintEnd_toEndOf="parent"
-                          android:layout_marginEnd="15dp"
-                          android:layout_marginStart="15dp"
-                          android:layout_marginTop="10dp"
-                          android:layout_width="match_parent"
-                          android:layout_height="200dp"/>
+                        android:id="@+id/map_container"
+                        app:layout_constraintTop_toBottomOf="@id/listing_full_location_text"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"/>
 
                 <TextView
                         android:id="@+id/listing_full_condition_label"
@@ -177,7 +179,7 @@
                         android:layout_marginTop="20dp"
                         android:text="Condition"
                         android:fontFamily="@font/patua_one"
-                        android:textSize="16dp" />
+                        android:textSize="16dp"/>
 
                 <TextView
                         android:id="@+id/listing_full_condition"
@@ -188,7 +190,7 @@
                         android:layout_marginTop="20dp"
                         android:text=""
                         android:fontFamily="@font/inter"
-                        android:textSize="14dp" />
+                        android:textSize="14dp"/>
 
                 <TextView
                         android:id="@+id/listing_full_date_label"
@@ -200,7 +202,7 @@
                         android:layout_marginTop="10dp"
                         android:text="Date posted"
                         android:fontFamily="@font/patua_one"
-                        android:textSize="16dp" />
+                        android:textSize="16dp"/>
 
                 <TextView
                         android:id="@+id/listing_full_date"
@@ -212,38 +214,70 @@
                         android:layout_marginTop="10dp"
                         android:text=""
                         android:fontFamily="@font/inter"
-                        android:textSize="14dp" />
+                        android:textSize="14dp"/>
 
-                <TextView
-                        android:id="@+id/comment_label"
-                        android:layout_width="wrap_content"
+<!--                <TextView-->
+<!--                        android:id="@+id/comment_label"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/listing_full_date_label"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintEnd_toStartOf="@id/add_comment_button"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:layout_marginTop="60dp"-->
+<!--                        android:text="Comments"-->
+<!--                        android:fontFamily="@font/patua_one"-->
+<!--                        android:textColor="@color/blue"-->
+<!--                        android:textSize="20sp"/>-->
+
+                <LinearLayout
+                        android:id="@+id/center_buttons"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/listing_full_date_label"
+                        app:layout_constraintTop_toBottomOf="@id/listing_full_date"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="60dp"
-                        android:text="Comments"
-                        android:fontFamily="@font/patua_one"
-                        android:textColor="@color/blue"
-                        android:textSize="20sp" />
-
-                <Button
-                        android:id="@+id/add_comment_button"
-                        android:onClick="@{clickHandler::addCommentButtonClicked}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toTopOf="@id/listing_recycler_view"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="Add Comment"
-                        android:backgroundTint="@color/blue" />
+                        android:padding="10dp"
+                        android:orientation="horizontal"
+                        android:gravity="left"
+                >
+
+                    <Button
+                            android:id="@+id/add_comment_button"
+                            android:onClick="@{clickHandler::addCommentButtonClicked}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Comment"
+                            android:layout_margin="5dp"
+                            android:padding="1dp"
+                            android:backgroundTint="@color/blue"/>
+
+                    <Button
+                            android:id="@+id/update_listing_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Update"
+                            android:layout_margin="5dp"
+                            android:backgroundTint="@color/blue"/>
+
+                    <Button
+                            android:id="@+id/delete_listing_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Delete"
+                            android:layout_margin="5dp"
+                            android:backgroundTint="#E91E63"
+                    />
+                </LinearLayout>
+
+
+
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/listing_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/comment_label"
+                        app:layout_constraintTop_toBottomOf="@id/center_buttons"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginTop="20dp">

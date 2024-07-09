@@ -6,6 +6,7 @@ import android.view.View
 import com.springsamurais.toyswap.model.Listing
 import com.springsamurais.toyswap.model.Member
 import com.springsamurais.toyswap.ui.mainactivity.MainActivity
+import com.springsamurais.toyswap.ui.updatelisting.UpdateListingActivity
 
 class ViewListingClickHandlers(
     private var context: Context,
