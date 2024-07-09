@@ -6,6 +6,7 @@ import android.os.Parcelable
 class Member (
     var id: Long? = null,
     var name: String? = null,
+    var email: String? = null,
     var nickname: String? = null,
     var location: String? = null,
     var listings: List<Listing>? = null,
@@ -16,13 +17,14 @@ class Member (
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.createTypedArrayList(Listing)
-    ) {
-    }
+        parcel.readString(),
+        parcel.createTypedArrayList(Listing),
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(id)
         parcel.writeString(name)
+        parcel.writeString(email)
         parcel.writeString(nickname)
         parcel.writeString(location)
         parcel.writeTypedList(listings)
