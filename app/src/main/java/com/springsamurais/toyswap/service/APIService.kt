@@ -52,7 +52,5 @@ interface APIService {
     ): Call<Listing> // To be implemented
 
     @DELETE("/api/v1/listings/{listingID}")
-    fun deleteListing(
-        @Path("listingID") listingID: String
-    ): Call<String>
+    fun deleteListing(@Path("listingID") listingID: Long): Call<Unit>
 }

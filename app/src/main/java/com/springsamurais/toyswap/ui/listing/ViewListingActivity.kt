@@ -1,10 +1,12 @@
 package com.springsamurais.toyswap.ui.listing
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -33,6 +35,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.springsamurais.toyswap.model.Member
+import com.springsamurais.toyswap.ui.mainactivity.MainActivity
 import com.springsamurais.toyswap.ui.mainactivity.RecyclerViewInterface
 import java.text.SimpleDateFormat
 import java.util.*
@@ -83,41 +86,41 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback, RecyclerVie
 
         getListingComments(listing!!.id)
 
-
         val updateListingButton = findViewById<Button>(R.id.update_listing_button)
+        val deleteListingButton = findViewById<Button>(R.id.delete_listing_button)
+
+        if (listing!!.member!!.id == currentUser.id) {
+            updateListingButton.visibility = View.VISIBLE
+            deleteListingButton.visibility = View.VISIBLE
+        }
 
         updateListingButton.setOnClickListener {
-            val intent = android.content.Intent(this, UpdateListingActivity::class.java)
+            val intent = Intent(this, UpdateListingActivity::class.java)
             intent.putExtra("LISTING_ITEM", listing)
             startActivity(intent)
         }
 
-        val deleteListingButton = findViewById<Button>(R.id.delete_listing_button)
         deleteListingButton.setOnClickListener {
-            var apiService: APIService = RetrofitInstance.instance
-             val listingID =listing!!.id!!.toString()
-            apiService.deleteListing(
-                listingID
-            ).enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
+
+            RetrofitInstance.instance.deleteListing(listing!!.id!!).enqueue(object: Callback<Unit> {
+
+                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                     if (response.isSuccessful) {
                         Toast.makeText(this@ViewListingActivity, "Listing deleted", Toast.LENGTH_SHORT).show()
+                        var intent = Intent(this@ViewListingActivity, MainActivity::class.java)
+                        intent.putExtra("USER", currentUser)
+                        startActivity(intent)
                     } else {
-                        val errorBody = response.errorBody()?.string()
-                        Toast.makeText(this@ViewListingActivity, "Error deleting Listing: $errorBody", Toast.LENGTH_LONG).show()
-                        Log.e("DeleteFail:", "Error response $errorBody")
+                        Toast.makeText(this@ViewListingActivity, "Listing failed to delete", Toast.LENGTH_SHORT).show()
                     }
                 }
 
-                override fun onFailure(call: Call<String>, t: Throwable) {
-                    val errorMessage = t.message
-                    Toast.makeText(this@ViewListingActivity, "Something went wrong $errorMessage", Toast.LENGTH_LONG).show()
-                    Log.e("DeleteFailure:", "Error: ${t.message}", t)
+                override fun onFailure(call: Call<Unit>, t: Throwable) {
+                    Toast.makeText(this@ViewListingActivity, "Listing failed to delete: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
+
             })
-
-        } // end of delete
-
+        }
     }
 
     private fun getListingComments(id: Long?) {
@@ -154,9 +157,11 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback, RecyclerVie
         // Select views from layout
         val dateText: TextView = findViewById(R.id.listing_full_date)
         val conditionText: TextView = findViewById(R.id.listing_full_condition)
+        val categoryText: TextView = findViewById(R.id.listing_full_category)
 
         // Format fields as required
         val formattedCondition = listing.condition!!.replace("_", " ")
+        val formattedCategory  = listing.category!!.replace("_", " ")
 
         val date: Date? = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH).parse(listing.datePosted!!)
         val formattedDate: String = SimpleDateFormat("dd-MM-yy", Locale.ENGLISH).format(date!!)
@@ -164,6 +169,7 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback, RecyclerVie
         // Set the text in the views
         conditionText.text = formattedCondition
         dateText.text = formattedDate
+        categoryText.text = formattedCategory
     }
 
     private fun getCoordinates(location: String) : Array<Double> {
