@@ -31,6 +31,7 @@ import com.springsamurais.toyswap.ui.updatelisting.UpdateListingActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.springsamurais.toyswap.model.Member
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,13 +43,17 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
     private var comments: List<Comment>? = null;
     private lateinit var geocoder: Geocoder
     private lateinit var model: ViewListingViewModel
+    private lateinit var currentUser: Member
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_listing)
 
+        // Retrieve user and listing from parcel
         listing = intent.getParcelableExtra("LISTING_ITEM", Listing::class.java)
+        currentUser = intent.getParcelableExtra("USER", Member::class.java)!!
+
         model = ViewModelProvider(this)[ViewListingViewModel::class.java]
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_view_listing)
@@ -70,6 +75,9 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
             .add(R.id.map_container, mapFragment)
             .commit()
         mapFragment.getMapAsync(this)
+
+        val userField: TextView = findViewById(R.id.view_listing_user_info)
+        userField.text = "Like what you see, ${currentUser.nickname}?"
 
         getListingComments(listing!!.id)
 

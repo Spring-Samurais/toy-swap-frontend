@@ -8,13 +8,15 @@ class Member (
     var name: String? = null,
     var nickname: String? = null,
     var location: String? = null,
-    var listings: List<Listing>? = null
+    var listings: List<Listing>? = null,
+    var password: String? = null,
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Long::class.java.classLoader) as? Long,
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.createTypedArrayList(Listing)
     ) {
     }
 
@@ -23,6 +25,7 @@ class Member (
         parcel.writeString(name)
         parcel.writeString(nickname)
         parcel.writeString(location)
+        parcel.writeTypedList(listings)
     }
 
     override fun describeContents(): Int {

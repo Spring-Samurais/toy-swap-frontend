@@ -2,6 +2,7 @@ package com.springsamurais.toyswap.service
 
 import com.springsamurais.toyswap.model.Comment
 import com.springsamurais.toyswap.model.Listing
+import com.springsamurais.toyswap.model.Member
 import com.springsamurais.toyswap.ui.login.data.LoginRequest
 import com.springsamurais.toyswap.ui.login.data.LoginResponse
 import okhttp3.MultipartBody
@@ -29,8 +30,11 @@ interface APIService {
         @Part images: List<MultipartBody.Part>
     ): Call<Listing>
 
-    @POST("login")
-    fun login(@Body loginRequest: LoginRequest): Call<LoginResponse>
+    @POST("members/login")
+    fun login(@Body loginRequest: LoginRequest): Call<Member>
+
+    @POST("members/register")
+    fun register(@Body member: Member): Call<Member>
 
     @Multipart
     @PATCH("/api/v1/listings/{listingID}")
