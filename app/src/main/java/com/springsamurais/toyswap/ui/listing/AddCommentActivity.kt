@@ -69,6 +69,7 @@ class AddCommentActivity : AppCompatActivity() {
                     Toast.makeText(this@AddCommentActivity, "Comments posted successfully", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@AddCommentActivity, ViewListingActivity::class.java)
                     intent.putExtra("LISTING_ITEM", currentListing)
+                    intent.putExtra("USER", currentUser)
                     startActivity(intent)
                 } else {
                     Toast.makeText(this@AddCommentActivity, "Comment failed: ${response.message()}", Toast.LENGTH_SHORT).show()
