@@ -32,9 +32,20 @@ interface APIService {
     @POST("login")
     fun login(@Body loginRequest: LoginRequest): Call<LoginResponse>
 
-    @PUT("listings/{id}")
-    fun updateListing() // To be implemented
+    @Multipart
+    @PATCH("/api/v1/listings/{listingID}")
+    fun updateListing(
+        @Path("listingID") listingID: String,
+        @Part("title") title: RequestBody,
+        @Part("category") category: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("condition") condition: RequestBody,
+        @Part("statusListing") statusListing: RequestBody,
+    ): Call<Listing> // To be implemented
 
-    @DELETE("listings/{id}")
-    fun deleteListing(@Path("id") id: Long): Call<String>
+    @DELETE("/api/v1/listings/{listingID}")
+    fun deleteListing(
+        @Path("listingID") listingID: String
+
+    ): Call<String>
 }

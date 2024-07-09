@@ -1,4 +1,7 @@
 package com.springsamurais.toyswap.ui.updatelisting
 
-class UpdateListingClickHandlers {
+import android.content.Context
+
+class UpdateListingClickHandlers(private var context: Context) {
+
 }

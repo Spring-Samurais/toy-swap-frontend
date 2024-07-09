@@ -18,9 +18,4 @@ class ViewListingClickHandlers(private var context: Context) {
         context.startActivity(intent)
     }
 
-    fun updateListingButtonClicked(view: View) {
-        val intent = Intent(view.context, UpdateListingActivity::class.java)
-        context.startActivity(intent)
-    }
-
 }

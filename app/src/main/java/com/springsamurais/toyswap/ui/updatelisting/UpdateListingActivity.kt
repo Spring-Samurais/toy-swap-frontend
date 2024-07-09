@@ -4,22 +4,22 @@ package com.springsamurais.toyswap.ui.updatelisting
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import com.springsamurais.toyswap.R
+import com.springsamurais.toyswap.databinding.ActivityUpdateListingBinding
 import com.springsamurais.toyswap.model.Listing
 import com.springsamurais.toyswap.service.APIService
 import com.springsamurais.toyswap.service.RetrofitInstance
@@ -28,6 +28,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -43,25 +44,38 @@ class UpdateListingActivity : AppCompatActivity() {
     var itemDescriptionInput: EditText? = null
     var conditionSpinner: Spinner? = null
     var categorySpinner: Spinner? = null
-    var addListingButton: Button? = null
+    var updateListingButton: Button? = null
     var cancelButton: Button? = null
     var apiService: APIService? = null
+
+    private var binding: ActivityUpdateListingBinding? = null
+    private var handler: UpdateListingClickHandlers? = null;
+    private var listing: Listing? = null;
 
 
     private val REQUEST_CAMERA_PERMISSION = 100
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.springsamurais.toyswap.R.layout.activity_update_listing)
 
+        listing = intent.getParcelableExtra("LISTING_ITEM", Listing::class.java)
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_update_listing)
+        handler = UpdateListingClickHandlers(this)
+        binding?.clickHandler = handler
+        binding?.listing = listing
+
         imageView = findViewById(com.springsamurais.toyswap.R.id.user_image)
+
         takeImageButton = findViewById(com.springsamurais.toyswap.R.id.take_image_button)
         galleryImageButton = findViewById(com.springsamurais.toyswap.R.id.gallery_image_button)
         itemTitleInput = findViewById(com.springsamurais.toyswap.R.id.item_title_input)
         itemDescriptionInput = findViewById(com.springsamurais.toyswap.R.id.item_description_input)
 
 
-        addListingButton = findViewById(com.springsamurais.toyswap.R.id.add_listing_button)
+        updateListingButton = findViewById(R.id.updateListingButton)
         cancelButton = findViewById(com.springsamurais.toyswap.R.id.cancel_button)
 
 
@@ -113,23 +127,27 @@ class UpdateListingActivity : AppCompatActivity() {
             openGallery()
         }
 
-        addListingButton?.setOnClickListener(View.OnClickListener {
+        updateListingButton?.setOnClickListener(View.OnClickListener {
             if(itemTitleInput?.text.toString().isEmpty() || itemDescriptionInput?.text.toString().isEmpty()) {
                 Toast.makeText(this, "Please enter title, description and image", Toast.LENGTH_LONG).show()
                 return@OnClickListener
             }
 
-            if(selectedBitmap == null) {
-                Toast.makeText(this, "Please select an image", Toast.LENGTH_LONG).show()
-                return@OnClickListener
-            }
-
-            val bms: List<Bitmap> = listOf(selectedBitmap!!)
-            uploadListingToServer(bms)
+            uploadListingToServer()
         })
+
+
+       setFormattedContent(listing!!)
 
     } // end of onCreate
 
+    private fun setFormattedContent(listing: Listing) {
+        // Select views from layout
+        itemTitleInput?.setText(listing.title)
+        itemDescriptionInput?.setText(listing.description)
+        conditionSpinner?.setSelection(listing.condition!!.indexOf("_"))
+        categorySpinner?.setSelection(listing.category!!.indexOf("_"))
+    }
 
 
     private fun requestCameraPermission() {
@@ -141,61 +159,33 @@ class UpdateListingActivity : AppCompatActivity() {
     }
 
 
-    private fun uploadListingToServer(images: List<Bitmap>) {
-
-
-        val imageParts = mutableListOf<MultipartBody.Part>()
-        //val imageMap = LinkedHashMap<String, RequestBody>()
-        val cacheDir = cacheDir
-
-        for ((index, bitmap) in images.withIndex()) {
-            val file = File(cacheDir, "photo$index.jpeg")
-            try {
-                val fos = FileOutputStream(file)
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-                fos.flush()
-                fos.close()
-            } catch (e: IOException) {
-                Toast.makeText(this, "Error Uploading Image", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            // create request body for image file
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-            val imagePart = MultipartBody.Part.createFormData("images", file.name, requestFile)
-            imageParts.add(imagePart)
-        }
+    private fun uploadListingToServer() {
 
         val title = RequestBody.create(MediaType.parse("text/plain"), itemTitleInput?.text.toString())
         val description = RequestBody.create(MediaType.parse("text/plain"), itemDescriptionInput?.text.toString())
         val condition = RequestBody.create(MediaType.parse("text/plain"), conditionSpinner?.selectedItem.toString())
         val category = RequestBody.create(MediaType.parse("text/plain"), categorySpinner?.selectedItem.toString())
         val statusListing = RequestBody.create(MediaType.parse("text/plain"), "AVAILABLE")
-        val userID = RequestBody.create(MediaType.parse("text/plain"), "1")
+        // val listingID = RequestBody.create(MediaType.parse("text/plain"), listing?.id.toString())
+        val listingID =  listing?.id.toString()
 
-        apiService?.postListing(
+
+        apiService?.updateListing(
+            listingID,
             title,
-            userID,
             category,
             description,
             condition,
-            statusListing,
-            imageParts
+            statusListing
         )?.enqueue(object : Callback<Listing> {
-            override fun onResponse(call: Call<Listing>, response: retrofit2.Response<Listing>) {
+            override fun onResponse(call: Call<Listing>, response: Response<Listing>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(this@UpdateListingActivity, "Listing Uploaded", Toast.LENGTH_SHORT).show()
-                } else {
-                    val errorBody = response.errorBody()?.string()
-                    Toast.makeText(this@UpdateListingActivity, "Error Uploading Listing: $errorBody", Toast.LENGTH_LONG).show()
-                    Log.e("UploadError:", "Error response $errorBody")
+                    Toast.makeText(this@UpdateListingActivity, "Listing Updated", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
             }
-
             override fun onFailure(call: Call<Listing>, t: Throwable) {
-                val errorMessage = t.message
-                Toast.makeText(this@UpdateListingActivity, "Something went wrong $errorMessage", Toast.LENGTH_LONG).show()
-                Log.e("UploadFailure:", "Error: ${t.message}", t)
+                Toast.makeText(this@UpdateListingActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
