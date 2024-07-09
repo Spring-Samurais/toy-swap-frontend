@@ -27,6 +27,7 @@ import com.springsamurais.toyswap.model.Listing
 import com.springsamurais.toyswap.model.Member
 import com.springsamurais.toyswap.service.APIService
 import com.springsamurais.toyswap.service.RetrofitInstance
+import com.springsamurais.toyswap.ui.mainactivity.MainActivity
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -196,6 +197,9 @@ class AddListingActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Listing>, response: retrofit2.Response<Listing>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@AddListingActivity, "Listing Uploaded", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@AddListingActivity, MainActivity::class.java)
+                    intent.putExtra("USER", currentUser)
+                    startActivity(intent)
                 } else {
                     val errorBody = response.errorBody()?.string()
                     Toast.makeText(this@AddListingActivity, "Error Uploading Listing: $errorBody", Toast.LENGTH_LONG).show()
