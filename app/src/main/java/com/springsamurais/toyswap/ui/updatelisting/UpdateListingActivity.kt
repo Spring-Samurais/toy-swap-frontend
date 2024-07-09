@@ -166,7 +166,6 @@ class UpdateListingActivity : AppCompatActivity() {
         val condition = RequestBody.create(MediaType.parse("text/plain"), conditionSpinner?.selectedItem.toString())
         val category = RequestBody.create(MediaType.parse("text/plain"), categorySpinner?.selectedItem.toString())
         val statusListing = RequestBody.create(MediaType.parse("text/plain"), "AVAILABLE")
-        // val listingID = RequestBody.create(MediaType.parse("text/plain"), listing?.id.toString())
         val listingID =  listing?.id.toString()
 
 
