@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewInterface {
 
         // Set bindings for handling button clicks
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        handler = MainActivityClickHandlers(this);
+        handler = MainActivityClickHandlers(this, currentUser);
         binding.setClickHandler(handler)
 
         val userDisplay: TextView = findViewById(R.id.main_username_info)
