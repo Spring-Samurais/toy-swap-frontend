@@ -1,3 +1,5 @@
 package com.springsamurais.toyswap.ui.login.data
 
-data class LoginResponse(val token: String, val userId: Int)
+import com.springsamurais.toyswap.model.Member
+
+data class LoginResponse(val member: Member)

@@ -1,8 +1,13 @@
 package com.springsamurais.toyswap.ui.mainactivity
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -12,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.springsamurais.toyswap.R
 import com.springsamurais.toyswap.databinding.ActivityMainBinding
 import com.springsamurais.toyswap.model.Listing
+import com.springsamurais.toyswap.model.Member
+import com.springsamurais.toyswap.service.RetrofitInstance
 import com.springsamurais.toyswap.ui.listing.ViewListingActivity
 
 class MainActivity : AppCompatActivity(), RecyclerViewInterface {
@@ -20,10 +27,15 @@ class MainActivity : AppCompatActivity(), RecyclerViewInterface {
     private lateinit var binding: ActivityMainBinding
     private lateinit var handler: MainActivityClickHandlers
     private lateinit var model: MainActivityViewModel
+    private lateinit var currentUser: Member
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Get logged in user
+        currentUser = intent.getParcelableExtra("USER")!!
 
         // Set ViewModel
         model = ViewModelProvider(this)[MainActivityViewModel::class.java]
@@ -32,6 +44,9 @@ class MainActivity : AppCompatActivity(), RecyclerViewInterface {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         handler = MainActivityClickHandlers(this);
         binding.setClickHandler(handler)
+
+        val userDisplay: TextView = findViewById(R.id.main_username_info)
+        userDisplay.text = "Hello, ${currentUser.nickname}!"
 
         getAllListings()
     }
@@ -57,6 +72,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewInterface {
     override fun onItemClick(position: Int) {
         val intent = Intent(this@MainActivity, ViewListingActivity::class.java)
         intent.putExtra("LISTING_ITEM", listings!![position])
+        intent.putExtra("USER", currentUser)
         startActivity(intent)
     }
 }
