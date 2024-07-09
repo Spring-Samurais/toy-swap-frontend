@@ -50,7 +50,7 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback, RecyclerVie
         model = ViewModelProvider(this)[ViewListingViewModel::class.java]
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_view_listing)
-        handler = ViewListingClickHandlers(this)
+        handler = ViewListingClickHandlers(this, currentUser, listing!!)
         binding?.clickHandler = handler
         binding?.listing = listing
 
@@ -129,7 +129,7 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback, RecyclerVie
 
     override fun onItemClick(position: Int) {
         if (listing!!.member!!.id == currentUser.id) {
-
+            Log.d("CLICKY CLICKY!", "${listing!!.member!!.id} is the same as ${currentUser.id}, amazingly!")
         } else {
             Log.d("CLICKY CLICKY!", "${listing!!.member!!.id} does not equal ${currentUser.id}, sadly.")
         }

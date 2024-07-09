@@ -1,6 +1,7 @@
 package com.springsamurais.toyswap.service
 
 import com.springsamurais.toyswap.model.Comment
+import com.springsamurais.toyswap.model.CommentRequest
 import com.springsamurais.toyswap.model.Listing
 import com.springsamurais.toyswap.model.Member
 import com.springsamurais.toyswap.ui.login.data.LoginRequest
@@ -35,6 +36,9 @@ interface APIService {
 
     @POST("members/register")
     fun register(@Body member: Member): Call<Member>
+
+    @POST("comments")
+    fun postComment(@Body comment: CommentRequest): Call<Comment>
 
     @PUT("listings/{id}")
     fun updateListing() // To be implemented
