@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -21,9 +22,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.springsamurais.toyswap.R
 import com.springsamurais.toyswap.model.Listing
+import com.springsamurais.toyswap.model.Member
 import com.springsamurais.toyswap.service.APIService
 import com.springsamurais.toyswap.service.RetrofitInstance
+import com.springsamurais.toyswap.ui.mainactivity.MainActivity
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -32,6 +36,7 @@ import retrofit2.Callback
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.UUID
 
 
 class AddListingActivity : AppCompatActivity() {
@@ -48,6 +53,8 @@ class AddListingActivity : AppCompatActivity() {
     var cancelButton: Button? = null
     var apiService: APIService? = null
 
+    private lateinit var currentUser: Member
+
 
     private val REQUEST_CAMERA_PERMISSION = 100
 
@@ -55,6 +62,7 @@ class AddListingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(com.springsamurais.toyswap.R.layout.activity_add_listing)
 
+        currentUser = intent.getParcelableExtra("USER")!!
 
         imageView = findViewById(com.springsamurais.toyswap.R.id.user_image)
         takeImageButton = findViewById(com.springsamurais.toyswap.R.id.take_image_button)
@@ -130,6 +138,9 @@ class AddListingActivity : AppCompatActivity() {
             uploadListingToServer(bms)
         })
 
+        val userDisplay: TextView = findViewById(R.id.user_info)
+        userDisplay.text = "Hi, ${currentUser.username}!"
+
     } // end of onCreate
 
 
@@ -151,7 +162,8 @@ class AddListingActivity : AppCompatActivity() {
         val cacheDir = cacheDir
 
         for ((index, bitmap) in images.withIndex()) {
-            val file = File(cacheDir, "photo$index.jpeg")
+            val guid = UUID.randomUUID().toString()
+            val file = File(cacheDir, "photo$guid.jpeg")
             try {
                 val fos = FileOutputStream(file)
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
@@ -173,7 +185,7 @@ class AddListingActivity : AppCompatActivity() {
         val condition = RequestBody.create(MediaType.parse("text/plain"), conditionSpinner?.selectedItem.toString())
         val category = RequestBody.create(MediaType.parse("text/plain"), categorySpinner?.selectedItem.toString())
         val statusListing = RequestBody.create(MediaType.parse("text/plain"), "AVAILABLE")
-        val userID = RequestBody.create(MediaType.parse("text/plain"), "1")
+        val userID = RequestBody.create(MediaType.parse("text/plain"), currentUser.id.toString())
 
         apiService?.postListing(
             title,
@@ -187,6 +199,9 @@ class AddListingActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Listing>, response: retrofit2.Response<Listing>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@AddListingActivity, "Listing Uploaded", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@AddListingActivity, MainActivity::class.java)
+                    intent.putExtra("USER", currentUser)
+                    startActivity(intent)
                 } else {
                     val errorBody = response.errorBody()?.string()
                     Toast.makeText(this@AddListingActivity, "Error Uploading Listing: $errorBody", Toast.LENGTH_LONG).show()

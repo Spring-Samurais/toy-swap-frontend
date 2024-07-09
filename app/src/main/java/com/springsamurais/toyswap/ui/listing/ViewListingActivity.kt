@@ -1,5 +1,6 @@
 package com.springsamurais.toyswap.ui.listing
 
+import android.app.AlertDialog
 import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
@@ -32,10 +33,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.springsamurais.toyswap.model.Member
+import com.springsamurais.toyswap.ui.mainactivity.RecyclerViewInterface
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
+class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback, RecyclerViewInterface {
 
     private var binding: ActivityViewListingBinding? = null
     private var handler: ViewListingClickHandlers? = null;
@@ -57,7 +59,7 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
         model = ViewModelProvider(this)[ViewListingViewModel::class.java]
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_view_listing)
-        handler = ViewListingClickHandlers(this)
+        handler = ViewListingClickHandlers(this, currentUser, listing!!)
         binding?.clickHandler = handler
         binding?.listing = listing
 
@@ -77,7 +79,7 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         val userField: TextView = findViewById(R.id.view_listing_user_info)
-        userField.text = "Like what you see, ${currentUser.nickname}?"
+        userField.text = "Liking this, ${currentUser.username}?"
 
         getListingComments(listing!!.id)
 
@@ -130,7 +132,7 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun displayInRecyclerView() {
-        val adapter = CommentAdapter(comments!!, this)
+        val adapter = CommentAdapter(comments!!, this, this)
         val recyclerView: RecyclerView = findViewById(R.id.listing_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -168,5 +170,37 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
         geocoder = Geocoder(this, Locale.ENGLISH)
         val address = geocoder.getFromLocationName(location, 1)?.get(0)
         return arrayOf(address!!.latitude, address.longitude)
+    }
+
+    override fun onItemClick(position: Int) {
+        if (listing!!.member!!.id == currentUser.id) {
+            displayDialog(position)
+            updateAvailability(position)
+        }
+    }
+
+    private fun updateAvailability(position: Int) {
+
+    }
+
+    private fun displayDialog(position: Int) {
+
+        val builder  = AlertDialog.Builder(this)
+        val builder2 = AlertDialog.Builder(this)
+
+        builder.setTitle("Accept this comment?")
+            .setMessage("This will mark your listing as 'unavailable' and share details with ${comments!![position].commenter!!.username}")
+            .setPositiveButton("Accept") { dialog, which ->
+                builder2.setTitle("Exchange details")
+                    .setMessage(
+                        "Email for user '${comments!![position].commenter!!.username}' is:" +
+                                "\n\n${comments!![position].commenter!!.email}.\n\n" +
+                                "Happy swapping!"
+                    ).create().show()
+            }
+            .setNegativeButton("Cancel") { dialog, which -> }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 }

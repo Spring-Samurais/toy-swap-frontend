@@ -56,6 +56,20 @@
             android:text="Just a few details:"
             android:textSize="18sp" />
 
+    <EditText
+            android:id="@+id/email_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="email"
+            android:fontFamily="@font/inter"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/details_comment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp" />
+
 
     <EditText
             android:id="@+id/username_field"
@@ -64,10 +78,10 @@
             android:hint="username"
             android:fontFamily="@font/inter"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/details_comment"
+            app:layout_constraintTop_toBottomOf="@id/email_field"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp" />
 

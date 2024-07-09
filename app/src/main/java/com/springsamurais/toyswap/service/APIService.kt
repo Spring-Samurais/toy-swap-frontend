@@ -1,6 +1,7 @@
 package com.springsamurais.toyswap.service
 
 import com.springsamurais.toyswap.model.Comment
+import com.springsamurais.toyswap.model.CommentRequest
 import com.springsamurais.toyswap.model.Listing
 import com.springsamurais.toyswap.model.Member
 import com.springsamurais.toyswap.ui.login.data.LoginRequest
@@ -36,6 +37,9 @@ interface APIService {
     @POST("members/register")
     fun register(@Body member: Member): Call<Member>
 
+    @POST("comments")
+    fun postComment(@Body comment: CommentRequest): Call<Comment>
+
     @Multipart
     @PATCH("/api/v1/listings/{listingID}")
     fun updateListing(
@@ -50,6 +54,5 @@ interface APIService {
     @DELETE("/api/v1/listings/{listingID}")
     fun deleteListing(
         @Path("listingID") listingID: String
-
     ): Call<String>
 }

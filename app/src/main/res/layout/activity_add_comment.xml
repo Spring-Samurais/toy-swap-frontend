@@ -99,7 +99,6 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/blue"
                         android:text="Add Comment"
-                        android:onClick="@{clickHandler::addCommentButtonClicked}"
                         android:fontFamily="@font/inter"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

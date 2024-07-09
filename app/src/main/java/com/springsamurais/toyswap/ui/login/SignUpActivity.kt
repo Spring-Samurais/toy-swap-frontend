@@ -19,20 +19,22 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
+        val emailTxt: EditText = findViewById(R.id.email_field)
         val usernameTxt: EditText = findViewById(R.id.username_field)
         val passwordTxt: EditText = findViewById(R.id.password_field)
         val locationTxt: EditText = findViewById(R.id.location_field)
         val registerBtn: Button = findViewById(R.id.create_new_user_button)
 
         registerBtn.setOnClickListener {
+            val email    = emailTxt.text.toString()
             val username = usernameTxt.text.toString()
             val password = passwordTxt.text.toString()
             val location = locationTxt.text.toString()
 
-            if (username.isEmpty() || password.isEmpty() || location.isEmpty()) {
+            if (email.isEmpty() || username.isEmpty() || password.isEmpty() || location.isEmpty()) {
                 Toast.makeText(this, "Please complete all fields", Toast.LENGTH_SHORT).show()
             } else {
-                val newMember = Member(null, null, username, location, null, password)
+                val newMember = Member(null, null, email, username, location, null, password)
                 signup(newMember)
             }
         }
@@ -55,7 +57,6 @@ class SignUpActivity : AppCompatActivity() {
             override fun onFailure(call: Call<Member>, t: Throwable) {
                 Toast.makeText(this@SignUpActivity, "Login response failure. ${t.message}", Toast.LENGTH_SHORT).show()
             }
-
         })
     }
 }
