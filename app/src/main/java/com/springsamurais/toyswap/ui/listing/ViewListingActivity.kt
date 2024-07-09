@@ -37,6 +37,8 @@ import retrofit2.Response
 import com.springsamurais.toyswap.model.Member
 import com.springsamurais.toyswap.ui.mainactivity.MainActivity
 import com.springsamurais.toyswap.ui.mainactivity.RecyclerViewInterface
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -97,6 +99,7 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback, RecyclerVie
         updateListingButton.setOnClickListener {
             val intent = Intent(this, UpdateListingActivity::class.java)
             intent.putExtra("LISTING_ITEM", listing)
+            intent.putExtra("USER", currentUser)
             startActivity(intent)
         }
 
@@ -181,11 +184,15 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback, RecyclerVie
     override fun onItemClick(position: Int) {
         if (listing!!.member!!.id == currentUser.id) {
             displayDialog(position)
-            updateAvailability(position)
         }
     }
 
     private fun updateAvailability(position: Int) {
+
+        RetrofitInstance.instance.updateStatus(listing!!.id!!, "UNAVAILABLE").enqueue(object: Callback<Listing> {
+            override fun onResponse(call: Call<Listing>, response: Response<Listing>) {}
+            override fun onFailure(call: Call<Listing>, t: Throwable) {}
+        })
 
     }
 
@@ -203,6 +210,7 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback, RecyclerVie
                                 "\n\n${comments!![position].commenter!!.email}.\n\n" +
                                 "Happy swapping!"
                     ).create().show()
+                updateAvailability(position)
             }
             .setNegativeButton("Cancel") { dialog, which -> }
 

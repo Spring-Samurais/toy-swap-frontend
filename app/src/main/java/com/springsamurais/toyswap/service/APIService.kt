@@ -41,7 +41,7 @@ interface APIService {
     fun postComment(@Body comment: CommentRequest): Call<Comment>
 
     @Multipart
-    @PATCH("/api/v1/listings/{listingID}")
+    @PATCH("listings/{listingID}")
     fun updateListing(
         @Path("listingID") listingID: String,
         @Part("title") title: RequestBody,
@@ -49,7 +49,14 @@ interface APIService {
         @Part("description") description: RequestBody,
         @Part("condition") condition: RequestBody,
         @Part("statusListing") statusListing: RequestBody,
-    ): Call<Listing> // To be implemented
+    ): Call<Listing>
+
+    @Multipart
+    @PATCH("listings/{listingID}")
+    fun updateStatus(
+        @Path("listingID") listingID: Long,
+        @Part("statusListing") statusListing: String,
+    ): Call<Listing>
 
     @DELETE("/api/v1/listings/{listingID}")
     fun deleteListing(@Path("listingID") listingID: Long): Call<Unit>
