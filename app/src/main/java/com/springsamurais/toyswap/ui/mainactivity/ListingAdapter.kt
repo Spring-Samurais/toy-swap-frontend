@@ -70,7 +70,7 @@ class ListingAdapter(private val listings: List<Listing>,
 
         // Display image with Glide
         Glide.with(context)
-            .load(currentListing.images!![0].url)
+            .load(currentListing.images!![0].url.toString())
             .placeholder(R.drawable.img_placeholder)
             .error(R.drawable.img_placeholder)
             .into(viewHolder.listingImage)
