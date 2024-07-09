@@ -3,7 +3,10 @@ package com.springsamurais.toyswap.ui.listing
 import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -22,6 +25,12 @@ import com.springsamurais.toyswap.R
 import com.springsamurais.toyswap.databinding.ActivityViewListingBinding
 import com.springsamurais.toyswap.model.Comment
 import com.springsamurais.toyswap.model.Listing
+import com.springsamurais.toyswap.service.APIService
+import com.springsamurais.toyswap.service.RetrofitInstance
+import com.springsamurais.toyswap.ui.updatelisting.UpdateListingActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import com.springsamurais.toyswap.model.Member
 import java.text.SimpleDateFormat
 import java.util.*
@@ -71,6 +80,42 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
         userField.text = "Like what you see, ${currentUser.nickname}?"
 
         getListingComments(listing!!.id)
+
+
+        val updateListingButton = findViewById<Button>(R.id.update_listing_button)
+
+        updateListingButton.setOnClickListener {
+            val intent = android.content.Intent(this, UpdateListingActivity::class.java)
+            intent.putExtra("LISTING_ITEM", listing)
+            startActivity(intent)
+        }
+
+        val deleteListingButton = findViewById<Button>(R.id.delete_listing_button)
+        deleteListingButton.setOnClickListener {
+            var apiService: APIService = RetrofitInstance.instance
+             val listingID =listing!!.id!!.toString()
+            apiService.deleteListing(
+                listingID
+            ).enqueue(object : Callback<String> {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@ViewListingActivity, "Listing deleted", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val errorBody = response.errorBody()?.string()
+                        Toast.makeText(this@ViewListingActivity, "Error deleting Listing: $errorBody", Toast.LENGTH_LONG).show()
+                        Log.e("DeleteFail:", "Error response $errorBody")
+                    }
+                }
+
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    val errorMessage = t.message
+                    Toast.makeText(this@ViewListingActivity, "Something went wrong $errorMessage", Toast.LENGTH_LONG).show()
+                    Log.e("DeleteFailure:", "Error: ${t.message}", t)
+                }
+            })
+
+        } // end of delete
+
     }
 
     private fun getListingComments(id: Long?) {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import com.springsamurais.toyswap.ui.mainactivity.MainActivity
+import com.springsamurais.toyswap.ui.updatelisting.UpdateListingActivity
 
 class ViewListingClickHandlers(private var context: Context) {
 
