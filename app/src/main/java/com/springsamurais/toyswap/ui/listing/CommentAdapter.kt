@@ -8,14 +8,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.springsamurais.toyswap.R
 import com.springsamurais.toyswap.model.Comment
+import com.springsamurais.toyswap.ui.mainactivity.RecyclerViewInterface
 import java.text.SimpleDateFormat
 import java.util.*
 
 class CommentAdapter(private val comments: List<Comment>,
-                     private val context: Context)
+                     private val context: Context,
+                     private val recyclerViewInterface: RecyclerViewInterface)
     : RecyclerView.Adapter<CommentAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, recyclerViewInterface: RecyclerViewInterface) : RecyclerView.ViewHolder(view) {
         val commentUser: TextView
         val commentBody: TextView
         val commentDate: TextView
@@ -24,13 +26,22 @@ class CommentAdapter(private val comments: List<Comment>,
             commentUser = view.findViewById(R.id.comment_username)
             commentBody = view.findViewById(R.id.comment_body)
             commentDate = view.findViewById(R.id.comment_date)
+
+            view.setOnClickListener(View.OnClickListener { v: View? ->
+                if (recyclerViewInterface != null) {
+                    val position: Int = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        recyclerViewInterface.onItemClick(position)
+                    }
+                }
+            })
         }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.comment, viewGroup, false)
-        return ViewHolder(view)
+        return ViewHolder(view, recyclerViewInterface)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {

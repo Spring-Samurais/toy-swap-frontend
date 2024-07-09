@@ -3,6 +3,7 @@ package com.springsamurais.toyswap.ui.listing
 import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -23,10 +24,11 @@ import com.springsamurais.toyswap.databinding.ActivityViewListingBinding
 import com.springsamurais.toyswap.model.Comment
 import com.springsamurais.toyswap.model.Listing
 import com.springsamurais.toyswap.model.Member
+import com.springsamurais.toyswap.ui.mainactivity.RecyclerViewInterface
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
+class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback, RecyclerViewInterface {
 
     private var binding: ActivityViewListingBinding? = null
     private var handler: ViewListingClickHandlers? = null;
@@ -85,7 +87,7 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun displayInRecyclerView() {
-        val adapter = CommentAdapter(comments!!, this)
+        val adapter = CommentAdapter(comments!!, this, this)
         val recyclerView: RecyclerView = findViewById(R.id.listing_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -123,5 +125,13 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback {
         geocoder = Geocoder(this, Locale.ENGLISH)
         val address = geocoder.getFromLocationName(location, 1)?.get(0)
         return arrayOf(address!!.latitude, address.longitude)
+    }
+
+    override fun onItemClick(position: Int) {
+        if (listing!!.member!!.id == currentUser.id) {
+
+        } else {
+            Log.d("CLICKY CLICKY!", "${listing!!.member!!.id} does not equal ${currentUser.id}, sadly.")
+        }
     }
 }
