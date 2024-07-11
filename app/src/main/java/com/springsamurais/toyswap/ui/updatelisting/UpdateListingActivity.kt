@@ -21,6 +21,7 @@ import androidx.databinding.DataBindingUtil
 import com.springsamurais.toyswap.R
 import com.springsamurais.toyswap.databinding.ActivityUpdateListingBinding
 import com.springsamurais.toyswap.model.Listing
+import com.springsamurais.toyswap.model.Member
 import com.springsamurais.toyswap.service.APIService
 import com.springsamurais.toyswap.service.RetrofitInstance
 import okhttp3.MediaType
@@ -51,6 +52,7 @@ class UpdateListingActivity : AppCompatActivity() {
     private var binding: ActivityUpdateListingBinding? = null
     private var handler: UpdateListingClickHandlers? = null;
     private var listing: Listing? = null;
+    private lateinit var currentUser: Member
 
 
     private val REQUEST_CAMERA_PERMISSION = 100
@@ -58,31 +60,32 @@ class UpdateListingActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.springsamurais.toyswap.R.layout.activity_update_listing)
+        setContentView(R.layout.activity_update_listing)
 
         listing = intent.getParcelableExtra("LISTING_ITEM", Listing::class.java)
+        currentUser = intent.getParcelableExtra("USER", Member::class.java)!!
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_update_listing)
         handler = UpdateListingClickHandlers(this)
         binding?.clickHandler = handler
         binding?.listing = listing
 
-        imageView = findViewById(com.springsamurais.toyswap.R.id.user_image)
+        imageView = findViewById(R.id.user_image)
 
-        takeImageButton = findViewById(com.springsamurais.toyswap.R.id.take_image_button)
-        galleryImageButton = findViewById(com.springsamurais.toyswap.R.id.gallery_image_button)
-        itemTitleInput = findViewById(com.springsamurais.toyswap.R.id.item_title_input)
-        itemDescriptionInput = findViewById(com.springsamurais.toyswap.R.id.item_description_input)
+        takeImageButton = findViewById(R.id.take_image_button)
+        galleryImageButton = findViewById(R.id.gallery_image_button)
+        itemTitleInput = findViewById(R.id.item_title_input)
+        itemDescriptionInput = findViewById(R.id.item_description_input)
 
 
         updateListingButton = findViewById(R.id.updateListingButton)
-        cancelButton = findViewById(com.springsamurais.toyswap.R.id.cancel_button)
+        cancelButton = findViewById(R.id.cancel_button)
 
 
-        conditionSpinner = findViewById(com.springsamurais.toyswap.R.id.condition_spinner)
+        conditionSpinner = findViewById(R.id.condition_spinner)
         ArrayAdapter.createFromResource(
             this,
-            com.springsamurais.toyswap.R.array.conditions_array,
+            R.array.conditions_array,
             android.R.layout.simple_spinner_item
         ).also{
                 adapter ->
@@ -91,10 +94,10 @@ class UpdateListingActivity : AppCompatActivity() {
         }
 
 
-        categorySpinner = findViewById(com.springsamurais.toyswap.R.id.category_spinner)
+        categorySpinner = findViewById(R.id.category_spinner)
         ArrayAdapter.createFromResource(
             this,
-            com.springsamurais.toyswap.R.array.categories_array,
+            R.array.categories_array,
             android.R.layout.simple_spinner_item
         ).also{
                 adapter ->
@@ -136,7 +139,6 @@ class UpdateListingActivity : AppCompatActivity() {
             uploadListingToServer()
         })
 
-
        setFormattedContent(listing!!)
 
     } // end of onCreate
@@ -149,7 +151,6 @@ class UpdateListingActivity : AppCompatActivity() {
         categorySpinner?.setSelection(listing.category!!.indexOf("_"))
     }
 
-
     private fun requestCameraPermission() {
         ActivityCompat.requestPermissions(
             this,
@@ -157,7 +158,6 @@ class UpdateListingActivity : AppCompatActivity() {
             REQUEST_CAMERA_PERMISSION
         )
     }
-
 
     private fun uploadListingToServer() {
 
@@ -167,7 +167,6 @@ class UpdateListingActivity : AppCompatActivity() {
         val category = RequestBody.create(MediaType.parse("text/plain"), categorySpinner?.selectedItem.toString())
         val statusListing = RequestBody.create(MediaType.parse("text/plain"), "AVAILABLE")
         val listingID =  listing?.id.toString()
-
 
         apiService?.updateListing(
             listingID,
@@ -212,7 +211,6 @@ class UpdateListingActivity : AppCompatActivity() {
             }
         }
 
-
     fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraLauncher.launch(intent)
@@ -230,5 +228,4 @@ class UpdateListingActivity : AppCompatActivity() {
             }
         }
 
-
-} // end of class
+}
