@@ -70,11 +70,15 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback, RecyclerVie
 
         setFormattedContent(listing!!)
 
-        Glide.with(this)
-            .load(listing!!.images!![0].url)
-            .placeholder(R.drawable.img_placeholder)
-            .error(R.drawable.img_placeholder)
-            .into(findViewById(R.id.listing_full_image))
+        if (listing!!.images?.isEmpty() == true) {
+            Log.d("IMG", "No images: ")
+        } else {
+            Glide.with(this)
+                .load(listing!!.images)
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_placeholder)
+                .into(findViewById(R.id.listing_full_image))
+        }
 
         val mapFragment = SupportMapFragment.newInstance()
         supportFragmentManager
@@ -189,7 +193,7 @@ class ViewListingActivity : AppCompatActivity(), OnMapReadyCallback, RecyclerVie
 
     private fun updateAvailability(position: Int) {
 
-        RetrofitInstance.instance.updateStatus(listing!!.id!!, "UNAVAILABLE").enqueue(object: Callback<Listing> {
+        RetrofitInstance.instance.updateStatus(listing!!.id!!, "NOT_AVAILABLE".trim()).enqueue(object: Callback<Listing> {
             override fun onResponse(call: Call<Listing>, response: Response<Listing>) {}
             override fun onFailure(call: Call<Listing>, t: Throwable) {}
         })

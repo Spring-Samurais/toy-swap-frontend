@@ -163,7 +163,7 @@ class AddListingActivity : AppCompatActivity() {
 
         for ((index, bitmap) in images.withIndex()) {
             val guid = UUID.randomUUID().toString()
-            val file = File(cacheDir, "photo$guid.jpeg")
+            val file = File(cacheDir, "SAM$guid.jpeg")
             try {
                 val fos = FileOutputStream(file)
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)

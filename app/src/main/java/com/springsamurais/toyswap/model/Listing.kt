@@ -12,7 +12,7 @@ class Listing(
     var condition: String? = null,
     var statusListing: String? = null,
     var member: Member? = null,
-    var images: Array<Image>? = null
+    var images: String? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Long::class.java.classLoader) as? Long,
@@ -23,7 +23,7 @@ class Listing(
         parcel.readString(),
         parcel.readString(),
         parcel.readParcelable(Member::class.java.classLoader),
-        parcel.createTypedArray(Image)
+        parcel.readString()
     ) {
     }
 
@@ -36,7 +36,7 @@ class Listing(
         parcel.writeString(condition)
         parcel.writeString(statusListing)
         parcel.writeParcelable(member, flags)
-        parcel.writeTypedArray(images, flags)
+        parcel.writeString(images)
     }
 
     override fun describeContents(): Int {

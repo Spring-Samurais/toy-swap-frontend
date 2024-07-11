@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewInterface {
         setContentView(R.layout.activity_main)
 
         // Get logged in user
-        currentUser = intent.getParcelableExtra("USER")!!
+        currentUser = intent.getParcelableExtra("USER", Member::class.java)!!
 
         // Set ViewModel
         model = ViewModelProvider(this)[MainActivityViewModel::class.java]

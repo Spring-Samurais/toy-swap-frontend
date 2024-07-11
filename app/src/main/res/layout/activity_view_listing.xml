@@ -103,7 +103,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginTop="20dp"
-                        android:src="@drawable/pikachu_toy"
+                        android:src="@drawable/img_placeholder"
                         android:scaleType="centerCrop"/>
 
                 <TextView

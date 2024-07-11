@@ -2,12 +2,14 @@ package com.springsamurais.toyswap.ui.mainactivity
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.springsamurais.toyswap.R
@@ -69,11 +71,15 @@ class ListingAdapter(private val listings: List<Listing>,
         viewHolder.dateText.text     = formattedDate
 
         // Display image with Glide
-        Glide.with(context)
-            .load(currentListing.images!![0].url.toString())
-            .placeholder(R.drawable.img_placeholder)
-            .error(R.drawable.img_placeholder)
-            .into(viewHolder.listingImage)
+        if (currentListing.images?.isEmpty() == true) {
+                Log.d("IMG", "No images: ")
+        } else {
+            Glide.with(context)
+                .load(currentListing.images)
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_placeholder)
+                .into(viewHolder.listingImage)
+            }
     }
 
     override fun getItemCount() = listings.size
